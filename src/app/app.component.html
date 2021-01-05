@@ -1,0 +1,6 @@
+<div class="container">
+  <section class="login-register">
+    <app-login *ngIf="router.routerState.snapshot.url === '/login'"></app-login>
+    <app-register *ngIf="router.routerState.snapshot.url === '/register'"></app-register>
+  </section>
+</div>

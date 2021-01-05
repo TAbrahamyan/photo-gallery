@@ -1,0 +1,19 @@
+<section class="register">
+  <p><strong>Register</strong> to continue</p>
+
+  <form class="register-form">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input matInput type="email" placeholder="Email" />
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input matInput type="password" placeholder="Password" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary">Register</button>
+  </form>
+
+  <p>If you already have an account go <strong class="go-login" [routerLink]="['/login']">login</strong></p>
+</section>
