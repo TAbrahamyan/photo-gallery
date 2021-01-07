@@ -1,23 +1,32 @@
 import { Router } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
+import { check, validationResult } from 'express-validator';
 
 import User from '../models/User';
 import auth from '../middleware/auth';
 
 const router = Router();
 
-router.post('/register', async (req, res) => {
-  const { email, password } = req.body;
+router.post('/register', [
+  check('username').not().isEmpty(),
+  check('email', 'Please enter a valid email').isEmail(),
+  check('password', 'Password minimum length is 4').isLength({ min: 4 }),
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { username, email, password } = req.body;
 
   try {
     let user: any = await User.findOne({ email });
-
     if (user) {
-      return res.status(400).json({ message: 'User already exists' });
+      return res.status(400).json({ message: 'User with same email already exists' });
     }
 
-    user = new User({ email, password });
+    user = new User({ username, email, password });
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
     const payload = { user: { id: user.id } };
@@ -31,7 +40,7 @@ router.post('/register', async (req, res) => {
           throw e;
         }
 
-        res.status(200).json({ token });
+        res.status(200).json({ token, message: 'Successful registration' });
       },
     );
 
@@ -47,13 +56,11 @@ router.post('/login', async (req, res) => {
 
   try {
     let user: any = await User.findOne({ email });
-
     if (!user) {
       return res.status(400).json({ message: 'User not exists' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-
     if (!isMatch) {
       return res.status(400).json({ message: 'Incorrect password' });
     }

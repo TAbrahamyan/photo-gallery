@@ -4,13 +4,19 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
+interface IData {
+  toke: string;
+  message: string;
+}
+
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.styl']
 })
 export class RegisterComponent {
-  registrationForm = new FormGroup({
+  registrationForm: FormGroup = new FormGroup({
+    username: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),
     confirmPassword: new FormControl(''),
@@ -25,17 +31,22 @@ export class RegisterComponent {
   createUser(): void {
     this.http.post('http://localhost:8000/api/user/register', this.registrationForm.value)
       .subscribe(
-        (d: { token: string }): void => {
-          console.log('Succesfull registered', d);
+        (data: IData): void => {
+          this._snackBar(data.message);
           this.router.navigate(['/login']);
         },
         (e: HttpErrorResponse): void => {
+          this._snackBar(e.error.message);
           console.log('E:', e);
-          this.snackBar.open(e.error.message, 'Close', {
-            horizontalPosition: 'end',
-            verticalPosition: 'top',
-          });
         },
       );
+  }
+
+  private _snackBar(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 10000,
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+    });
   }
 }
