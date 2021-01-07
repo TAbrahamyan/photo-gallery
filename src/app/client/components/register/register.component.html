@@ -1,18 +1,23 @@
 <section class="register">
   <p><strong>Register</strong> to continue</p>
 
-  <form class="register-form" [formGroup]="registrationForm" (submit)="createUser()">
+  <form class="register-form" [formGroup]="registrationForm" (ngSubmit)="createUser()">
     <mat-form-field>
       <mat-label>Username</mat-label>
 
       <input
         matInput
         type="text"
-        name="username"
+        name="usernames"
         placeholder="Username"
         formControlName="username"
+        required
       />
     </mat-form-field>
+
+    <p class="validation-text" *ngIf="registrationForm.controls.username.errors && registrationForm.controls.username.touched">
+      Username must not contain special symbols
+    </p>
 
     <mat-form-field>
       <mat-label>Email</mat-label>
@@ -23,8 +28,13 @@
         name="email"
         placeholder="Email"
         formControlName="email"
+        required
       />
     </mat-form-field>
+
+    <p class="validation-text" *ngIf="registrationForm.controls.email.errors && registrationForm.controls.email.touched">
+      Invalid email
+    </p>
 
     <mat-form-field>
       <mat-label>Password</mat-label>
@@ -35,8 +45,13 @@
         name="password"
         placeholder="Password"
         formControlName="password"
+        required
       />
     </mat-form-field>
+
+    <p class="validation-text" *ngIf="registrationForm.controls.password.errors && registrationForm.controls.password.touched">
+      Password minimum length is 4
+    </p>
 
     <mat-form-field>
       <mat-label>Confirm password</mat-label>
@@ -47,10 +62,15 @@
         name="confirmPassword"
         placeholder="Confirm password"
         formControlName="confirmPassword"
+        required
       />
     </mat-form-field>
 
-    <button mat-raised-button color="primary">Register</button>
+    <p class="validation-text" *ngIf="registrationForm.value.password.length && registrationForm.value.confirmPassword.length">
+      {{ comparePasswords }}
+    </p>
+
+    <button mat-raised-button color="primary" [disabled]="registrationForm.invalid">Register</button>
   </form>
 
   <p>If you already have an account go <strong class="go-login" [routerLink]="['/login']">login</strong></p>

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -16,10 +16,10 @@ interface IData {
 })
 export class RegisterComponent {
   registrationForm: FormGroup = new FormGroup({
-    username: new FormControl(''),
-    email: new FormControl(''),
-    password: new FormControl(''),
-    confirmPassword: new FormControl(''),
+    username: new FormControl('', [ Validators.required, this.validateName ]),
+    email: new FormControl('', [ Validators.required, Validators.email, Validators.pattern('^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$') ]),
+    password: new FormControl('', [ Validators.required, Validators.minLength(4) ]),
+    confirmPassword: new FormControl('', [ Validators.required, Validators.minLength(4) ]),
   });
 
   constructor(
@@ -36,8 +36,9 @@ export class RegisterComponent {
           this.router.navigate(['/login']);
         },
         (e: HttpErrorResponse): void => {
-          this._snackBar(e.error.message);
-          console.log('E:', e);
+          const { error: { message } } = e;
+          message && this._snackBar(message);
+          console.log('Error:', e);
         },
       );
   }
@@ -48,5 +49,14 @@ export class RegisterComponent {
       horizontalPosition: 'end',
       verticalPosition: 'top',
     });
+  }
+
+  private validateName(control: AbstractControl): ValidationErrors {
+    return control.value.replace(/[\w-]+/g, '');
+  }
+
+  get comparePasswords() {
+    const { password, confirmPassword } = this.registrationForm.value;
+    return password === confirmPassword ? '' : 'Password confirmation is incorrect';
   }
 }
