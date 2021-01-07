@@ -8,14 +8,16 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 
 import { AppComponent } from './app.component';
+import { HomeComponent } from './client/components/home/home.component';
 import { LoginComponent } from './client/components/login/login.component';
-import { RegisterComponent } from './client/components/register/register.component';
+import { SignupComponent } from './client/components/signup/signup.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     LoginComponent,
-    RegisterComponent
+    SignupComponent,
   ],
   imports: [
     BrowserModule,

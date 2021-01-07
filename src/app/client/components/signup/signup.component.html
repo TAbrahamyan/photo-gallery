@@ -1,7 +1,7 @@
-<section class="register">
-  <p><strong>Register</strong> to continue</p>
+<section class="signup">
+  <p><strong>Sign up</strong> to continue</p>
 
-  <form class="register-form" [formGroup]="registrationForm" (ngSubmit)="createUser()">
+  <form class="signup-form" [formGroup]="signupForm" (ngSubmit)="createUser()">
     <mat-form-field>
       <mat-label>Username</mat-label>
 
@@ -15,7 +15,7 @@
       />
     </mat-form-field>
 
-    <p class="validation-text" *ngIf="registrationForm.controls.username.errors && registrationForm.controls.username.touched">
+    <p class="validation-text" *ngIf="signupForm.controls.username.errors && signupForm.controls.username.touched">
       Username must not contain special symbols
     </p>
 
@@ -32,7 +32,7 @@
       />
     </mat-form-field>
 
-    <p class="validation-text" *ngIf="registrationForm.controls.email.errors && registrationForm.controls.email.touched">
+    <p class="validation-text" *ngIf="signupForm.controls.email.errors && signupForm.controls.email.touched">
       Invalid email
     </p>
 
@@ -49,7 +49,7 @@
       />
     </mat-form-field>
 
-    <p class="validation-text" *ngIf="registrationForm.controls.password.errors && registrationForm.controls.password.touched">
+    <p class="validation-text" *ngIf="signupForm.controls.password.errors && signupForm.controls.password.touched">
       Password minimum length is 4
     </p>
 
@@ -66,12 +66,18 @@
       />
     </mat-form-field>
 
-    <p class="validation-text" *ngIf="registrationForm.value.password.length && registrationForm.value.confirmPassword.length">
+    <p class="validation-text" *ngIf="signupForm.value.password.length && signupForm.value.confirmPassword.length">
       {{ comparePasswords }}
     </p>
 
-    <button mat-raised-button color="primary" [disabled]="registrationForm.invalid">Register</button>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="signupForm.invalid || !(signupForm.value.password === signupForm.value.confirmPassword)"
+    >
+      Sign up
+    </button>
   </form>
 
-  <p>If you already have an account go <strong class="go-login" [routerLink]="['/login']">login</strong></p>
+  <p>If you already have an account go <strong class="go-login" [routerLink]="['/login']">Log in</strong></p>
 </section>

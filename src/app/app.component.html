@@ -1,6 +1,17 @@
 <div class="container">
-  <section class="login-register">
-    <app-login *ngIf="router.routerState.snapshot.url === '/login'"></app-login>
-    <app-register *ngIf="router.routerState.snapshot.url === '/register'"></app-register>
+  <section class="login-signup" *ngIf="router.routerState.snapshot.url !== '/home'">
+    <app-login
+      (snackBar)="snackBar($event)"
+      *ngIf="router.routerState.snapshot.url === '/login'"
+    ></app-login>
+
+    <app-signup
+      (snackBar)="snackBar($event)"
+      *ngIf="router.routerState.snapshot.url === '/signup'"
+    ></app-signup>
   </section>
+
+  <app-home
+    *ngIf="router.routerState.snapshot.url === '/home'"
+  ></app-home>
 </div>
