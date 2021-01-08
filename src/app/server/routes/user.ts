@@ -4,13 +4,13 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import User from '../models/User';
-import auth from '../middleware/auth';
+import checkAuth from '../middleware/checkAuth';
 
 const router = Router();
 
 router.post('/signup', [
   check('username').notEmpty(),
-  check('email', 'Please enter a valid email').isEmail(),
+  check('email', 'Invalid email').isEmail(),
   check('password', 'Password minimum length is 4').isLength({ min: 4 }),
 ], async (req, res) => {
   const errors = validationResult(req);
@@ -39,7 +39,15 @@ router.post('/signup', [
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', [
+  check('email', 'Invalid email').normalizeEmail().isEmail(),
+  check('password', 'Password minimum length is 4').exists().isLength({ min: 4 }),
+], async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   const { email, password } = req.body;
 
   try {
@@ -65,7 +73,7 @@ router.post('/login', async (req, res) => {
   }
 });
 
-router.get('/me', auth, async (req: any, res) => {
+router.get('/me', checkAuth, async (req: any, res: any) => {
   try {
     const user = await User.findById(req.userId);
     res.status(200).json(user);

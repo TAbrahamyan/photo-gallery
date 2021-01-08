@@ -14,6 +14,7 @@ export default (req, res, next) => {
 
     const decoded: any = jwt.verify(token, 'secret');
     req.userId = decoded.userId;
+
     next();
   } catch {
     res.status(500).send({ message: 'Invalid token' });
