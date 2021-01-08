@@ -1,83 +1,18 @@
-<section class="signup">
+<ng-container>
   <p><strong>Sign up</strong> to continue</p>
 
-  <form class="signup-form" [formGroup]="signupForm" (ngSubmit)="createUser()">
-    <mat-form-field>
-      <mat-label>Username</mat-label>
+  <form [formGroup]="signupForm" (ngSubmit)="signup()">
+    <div *ngFor="let input of inputsConfig">
+      <mat-form-field>
+        <mat-label>{{ input.label }}</mat-label>
+        <input matInput [type]="input.type" [formControlName]="input.controlName" required />
+      </mat-form-field>
 
-      <input
-        matInput
-        type="text"
-        name="usernames"
-        placeholder="Username"
-        formControlName="username"
-        required
-      />
-    </mat-form-field>
+      <p *ngIf="validation(input.controlName)">{{ input.validationText }}</p>
+    </div>
 
-    <p class="validation-text" *ngIf="signupForm.controls.username.errors && signupForm.controls.username.touched">
-      Username must not contain special symbols
-    </p>
-
-    <mat-form-field>
-      <mat-label>Email</mat-label>
-
-      <input
-        matInput
-        type="email"
-        name="email"
-        placeholder="Email"
-        formControlName="email"
-        required
-      />
-    </mat-form-field>
-
-    <p class="validation-text" *ngIf="signupForm.controls.email.errors && signupForm.controls.email.touched">
-      Invalid email
-    </p>
-
-    <mat-form-field>
-      <mat-label>Password</mat-label>
-
-      <input
-        matInput
-        type="password"
-        name="password"
-        placeholder="Password"
-        formControlName="password"
-        required
-      />
-    </mat-form-field>
-
-    <p class="validation-text" *ngIf="signupForm.controls.password.errors && signupForm.controls.password.touched">
-      Password minimum length is 4
-    </p>
-
-    <mat-form-field>
-      <mat-label>Confirm password</mat-label>
-
-      <input
-        matInput
-        type="password"
-        name="confirmPassword"
-        placeholder="Confirm password"
-        formControlName="confirmPassword"
-        required
-      />
-    </mat-form-field>
-
-    <p class="validation-text" *ngIf="signupForm.value.password.length && signupForm.value.confirmPassword.length">
-      {{ comparePasswords }}
-    </p>
-
-    <button
-      mat-raised-button
-      color="primary"
-      [disabled]="signupForm.invalid || !(signupForm.value.password === signupForm.value.confirmPassword)"
-    >
-      Sign up
-    </button>
+    <button mat-raised-button color="primary" [disabled]="disabledButton">Sign up</button>
   </form>
 
-  <p>If you already have an account go <strong class="go-login" [routerLink]="['/login']">Log in</strong></p>
-</section>
+  <p class="go" [routerLink]="['/login']">Already have account?</p>
+</ng-container>

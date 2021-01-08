@@ -1,18 +1,15 @@
 import { Router } from 'express';
-import { check, validationResult } from 'express-validator';
+import { validationResult } from 'express-validator';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import User from '../models/User';
 import checkAuth from '../middleware/checkAuth';
+import { signupValidation, loginValidation } from '../middleware/validations';
 
 const router = Router();
 
-router.post('/signup', [
-  check('username').notEmpty(),
-  check('email', 'Invalid email').isEmail(),
-  check('password', 'Password minimum length is 4').isLength({ min: 4 }),
-], async (req, res) => {
+router.post('/signup', signupValidation, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });
@@ -39,10 +36,7 @@ router.post('/signup', [
   }
 });
 
-router.post('/login', [
-  check('email', 'Invalid email').normalizeEmail().isEmail(),
-  check('password', 'Password minimum length is 4').exists().isLength({ min: 4 }),
-], async (req, res) => {
+router.post('/login', loginValidation, async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({ errors: errors.array() });

@@ -25,6 +25,7 @@ export class HomeComponent implements OnInit {
         },
         (error: HttpErrorResponse): void => {
           if (error.status === 500) {
+            localStorage.clear();
             this.router.navigate(['/login']);
           }
         },
