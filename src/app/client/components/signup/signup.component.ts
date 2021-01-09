@@ -64,7 +64,8 @@ export class SignupComponent {
   }
 
   validation(name: string): boolean {
-    return this.signupForm.controls[name].errors && this.signupForm.controls[name].touched;
+    const { [name]: controlName } = this.signupForm.controls;
+    return controlName.errors && controlName.touched && controlName.value;
   }
 
   get disabledButton(): boolean {

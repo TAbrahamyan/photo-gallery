@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import config from '../config/config';
 
 export default (req, res, next) => {
   if (req.method === 'OPTIONS') {
@@ -12,7 +13,7 @@ export default (req, res, next) => {
       return res.status(401).json({ message: 'Auth error' });
     }
 
-    const decoded: any = jwt.verify(token, 'secret');
+    const decoded: any = jwt.verify(token, config.secretJWT);
     req.userId = decoded.userId;
 
     next();

@@ -51,6 +51,7 @@ export class LoginComponent {
   }
 
   validation(name: string): boolean {
-    return this.loginForm.controls[name].errors && this.loginForm.controls[name].touched;
+    const { [name]: controlName } = this.loginForm.controls;
+    return controlName.errors && controlName.touched && controlName.value;
   }
 }

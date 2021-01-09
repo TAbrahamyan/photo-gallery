@@ -1,17 +1,20 @@
 import express from 'express';
-import bodyParser from 'body-parser';
+import dotenv from 'dotenv';
 import cors from 'cors';
 
-import user from './server/routes/user';
-import { initMongoServer } from './server/config/db';
+dotenv.config();
 
-initMongoServer();
+import './server/config/db';
+import user from './server/routes/user';
+import config from './server/config/config';
+
 const app = express();
 
 app.use(cors());
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/api/user', user);
 
-const PORT: string | number = process.env.PORT || 8000;
-app.listen(PORT, () => console.log(`Server = http://localhost:${PORT}`));
+app.listen(config.port, () => {
+  console.log(`Server = http://localhost:${config.port}`);
+});

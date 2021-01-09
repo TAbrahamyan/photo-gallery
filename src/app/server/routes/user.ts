@@ -5,6 +5,7 @@ import jwt from 'jsonwebtoken';
 
 import User from '../models/User';
 import checkAuth from '../middleware/checkAuth';
+import config from '../config/config';
 import { signupValidation, loginValidation } from '../middleware/validations';
 
 const router = Router();
@@ -57,7 +58,7 @@ router.post('/login', loginValidation, async (req, res) => {
 
     const token = jwt.sign(
       { userId: user.id },
-      'secret',
+      config.secretJWT,
       { expiresIn: 3600 },
     );
 
