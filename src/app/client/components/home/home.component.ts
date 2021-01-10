@@ -17,13 +17,12 @@ export class HomeComponent implements OnInit {
       headers: new HttpHeaders({ token: localStorage.getItem('token') }),
     })
       .subscribe(
-        (data: any): void => {
-          this.username = data.username;
+        ({ username }: { username: string }): void => {
+          this.username = username;
         },
         (error: HttpErrorResponse): void => {
           if (error.status === 500) {
-            localStorage.clear();
-            this.router.navigate(['/login']);
+            this.logout();
           }
         },
       );

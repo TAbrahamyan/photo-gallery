@@ -1,13 +1,36 @@
-<mat-toolbar class="home" color="primary">
-  <span>Hello {{ username }}</span>
-  <span class="example-spacer"></span>
+<ng-container>
+  <mat-toolbar class="home" fxLayout="row" color="primary">
+    <span>Hello <strong>{{ username }}</strong></span>
+    <span class="example-spacer"></span>
 
-  <button mat-raised-button>
-    <mat-icon>add</mat-icon>
-    Add photo
-  </button>
+    <button mat-raised-button fxHide.xs>
+      <mat-icon>add</mat-icon>
+      Add photo
+    </button>
 
-  <button mat-raised-button color="accent" (click)="logout()">
-    <mat-icon>logout</mat-icon> Log out
-  </button>
-</mat-toolbar>
+    <button mat-raised-button color="accent" (click)="logout()" fxHide.xs>
+      <mat-icon>logout</mat-icon>
+      Log out
+    </button>
+
+    <button mat-icon-button [matMenuTriggerFor]="dropMenu" fxHide fxShow.xs>
+      <mat-icon>more_vert</mat-icon>
+    </button>
+
+    <mat-menu #dropMenu="matMenu">
+      <div class="mobile-menu">
+        <button mat-raised-button color="primary">
+          <mat-icon>add</mat-icon>
+          Add photo
+        </button>
+
+        <button mat-raised-button color="accent" (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          Log out
+        </button>
+      </div>
+    </mat-menu>
+  </mat-toolbar>
+
+  <app-photos></app-photos>
+</ng-container>

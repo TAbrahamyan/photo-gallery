@@ -1,0 +1,77 @@
+<section class="photos">
+  <h1>27 Nov 2020</h1>
+
+  <div class="backdrop" *ngIf="isZoom">
+    <mat-icon class="close" (click)="close()">close</mat-icon>
+
+    <swiper [slidesPerView]="1" [navigation]="true" [simulateTouch]="false" [initialSlide]="imageIndex">
+      <ng-template *ngFor="let photo of photos" swiperSlide>
+        <img [src]="photo" />
+      </ng-template>
+    </swiper>
+  </div>
+</section>
+
+<section class="photos">
+  <h1>Today</h1>
+
+  <div>
+    <img *ngFor="let photo of photos; let i = index" [src]="photo" (click)="zoomPhotos(i)" />
+  </div>
+</section>
+
+<section class="photos">
+  <h1>Yesterday</h1>
+
+  <div>
+    <img *ngFor="let photo of photos; let i = index" [src]="photo" (click)="zoomPhotos(i)" />
+  </div>
+</section>
+
+<section class="photos">
+  <h1>Yesterday</h1>
+
+  <div>
+    <img *ngFor="let photo of photos; let i = index" [src]="photo" (click)="zoomPhotos(i)" />
+  </div>
+</section>
+
+<section class="photos">
+  <h1>Yesterday</h1>
+
+  <div>
+    <img *ngFor="let photo of photos; let i = index" [src]="photo" (click)="zoomPhotos(i)" />
+  </div>
+</section>
+
+<section class="photos">
+  <h1>Yesterday</h1>
+
+  <div>
+    <img *ngFor="let photo of photos; let i = index" [src]="photo" (click)="zoomPhotos(i)" />
+  </div>
+</section>
+
+<section class="photos">
+  <h1>Yesterday</h1>
+
+  <div>
+    <img *ngFor="let photo of photos; let i = index" [src]="photo" (click)="zoomPhotos(i)" />
+  </div>
+</section>
+
+<section class="photos">
+  <h1>Yesterday</h1>
+
+  <div>
+    <img *ngFor="let photo of photos; let i = index" [src]="photo" (click)="zoomPhotos(i)" />
+  </div>
+</section>
+
+<section class="photos">
+  <h1>Yesterday</h1>
+
+  <div>
+    <img *ngFor="let photo of photos; let i = index" [src]="photo" (click)="zoomPhotos(i)" />
+  </div>
+</section>

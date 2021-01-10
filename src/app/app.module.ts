@@ -6,11 +6,14 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { SwiperModule } from 'swiper/angular';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './client/components/home/home.component';
 import { LoginComponent } from './client/components/login/login.component';
 import { SignupComponent } from './client/components/signup/signup.component';
+import { PhotosComponent } from './client/components/photos/photos.component';
 
 @NgModule({
   declarations: [
@@ -18,15 +21,18 @@ import { SignupComponent } from './client/components/signup/signup.component';
     HomeComponent,
     LoginComponent,
     SignupComponent,
+    PhotosComponent,
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
     MaterialModule,
+    FlexLayoutModule,
+    SwiperModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
