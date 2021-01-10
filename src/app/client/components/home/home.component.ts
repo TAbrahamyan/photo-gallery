@@ -8,12 +8,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./home.component.styl']
 })
 export class HomeComponent implements OnInit {
-  user: any = {};
+  username: string;
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-  ) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit(): void {
     this.http.get('http://localhost:8000/api/user/me', {
@@ -21,7 +18,7 @@ export class HomeComponent implements OnInit {
     })
       .subscribe(
         (data: any): void => {
-          this.user = data;
+          this.username = data.username;
         },
         (error: HttpErrorResponse): void => {
           if (error.status === 500) {
@@ -30,5 +27,10 @@ export class HomeComponent implements OnInit {
           }
         },
       );
+  }
+
+  logout(): void {
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
 }

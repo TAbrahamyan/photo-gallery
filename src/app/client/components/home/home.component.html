@@ -1,3 +1,13 @@
-<section class="home">
-  <p>{{ user | json }}</p>
-</section>
+<mat-toolbar class="home" color="primary">
+  <span>Hello {{ username }}</span>
+  <span class="example-spacer"></span>
+
+  <button mat-raised-button>
+    <mat-icon>add</mat-icon>
+    Add photo
+  </button>
+
+  <button mat-raised-button color="accent" (click)="logout()">
+    <mat-icon>logout</mat-icon> Log out
+  </button>
+</mat-toolbar>
