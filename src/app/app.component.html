@@ -1,5 +1,5 @@
 <div class="container">
-  <section class="login-signup" *ngIf="router.routerState.snapshot.url !== '/home'">
+  <section class="login-signup" *ngIf="router.routerState.snapshot.url !== '/'">
     <app-login
       (snackBar)="snackBar($event)"
       *ngIf="router.routerState.snapshot.url === '/login'"
@@ -11,7 +11,7 @@
     ></app-signup>
   </section>
 
-  <app-home
-    *ngIf="router.routerState.snapshot.url === '/home'"
-  ></app-home>
+  <router-outlet
+    *ngIf="router.routerState.snapshot.url === '/'"
+  ></router-outlet>
 </div>

@@ -44,7 +44,7 @@ export class LoginComponent {
       .subscribe(
         ({ token }: { token: string }): void => {
           localStorage.setItem('token', token);
-          this.router.navigate(['/home']);
+          this.router.navigate(['/']);
         },
         ({ error: { message } }): void => this.snackBar.emit(message),
       );
