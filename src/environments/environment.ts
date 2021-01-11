@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  baseUrl: window.location.origin.includes('localhost') ? 'http://localhost:8000/api' : window.location.origin,
 };
 
 /*

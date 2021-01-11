@@ -1,3 +1,5 @@
+@import './client/stylus/_variables';
+
 .login-signup
   position absolute
   top 50%
@@ -13,18 +15,18 @@ form
   padding 2rem 0
 
   mat-form-field
-    width 100%
+    width $size100percent
 
   p
     color red
     margin-top -1rem
     font-size 0.8em
     text-align left
-    font-weight bold
+    font-weight $bold
 
 .go
-  outline none
-  font-weight bold
+  outline $none
+  font-weight $bold
   &:hover
     text-decoration underline
-    cursor pointer
+    cursor $pointer

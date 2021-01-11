@@ -1,5 +1,6 @@
 @import "~swiper/swiper-bundle";
-@import './app/client/stylus/_fonts'
+@import './app/client/stylus/_fonts';
+@import './app/client/stylus/_variables';
 
 *
   margin 0
@@ -11,29 +12,8 @@ body
 
 p
   font-size 1.1em
-  color #42526E
+  color $defaultColor
 
 h1
   font-size 1.8em
-  color #42526E
-
-.swiper-button-prev {
-  background-image: url(https://static.thenounproject.com/png/890010-200.png);
-  background-repeat: no-repeat;
-  background-size: 200% auto;
-}
-
-.swiper-button-prev::after {
-  display: none;
-}
-
-.swiper-button-next {
-  background-image: url(https://png.pngtree.com/png-vector/20191110/ourlarge/pngtree-right-arrow-vector-icon-white-transparent-background-png-image_1978016.jpg);
-  background-repeat: no-repeat;
-  background-size: 200% auto;
-  margin-left -3rem
-}
-
-.swiper-button-next::after {
-  display: none;
-}
+  color $defaultColor

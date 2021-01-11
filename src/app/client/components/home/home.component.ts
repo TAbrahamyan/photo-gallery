@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { ApiPaths } from '../../enums/ApiPaths';
 
 @Component({
   selector: 'app-home',
@@ -9,13 +11,17 @@ import { Router } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
   username: string;
+  headers: HttpHeaders = new HttpHeaders({
+    token: localStorage.getItem('token'),
+  });
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
-    this.http.get('http://localhost:8000/api/user/me', {
-      headers: new HttpHeaders({ token: localStorage.getItem('token') }),
-    })
+    this.http.get(`${environment.baseUrl}/${ApiPaths.Me}`, { headers: this.headers })
       .subscribe(
         ({ username }: { username: string }): void => {
           this.username = username;

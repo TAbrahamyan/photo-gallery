@@ -2,6 +2,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { ApiPaths } from '../../enums/ApiPaths';
 
 interface IInputsConfig {
   type: string;
@@ -37,10 +39,13 @@ export class LoginComponent {
     },
   ];
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) { }
 
   login(): void {
-    this.http.post('http://localhost:8000/api/user/login', this.loginForm.value)
+    this.http.post(`${environment.baseUrl}/${ApiPaths.Login}`, this.loginForm.value)
       .subscribe(
         ({ token }: { token: string }): void => {
           localStorage.setItem('token', token);

@@ -2,6 +2,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { ApiPaths } from '../../enums/ApiPaths';
 
 interface IInputsConfig {
   type: string;
@@ -50,10 +52,13 @@ export class SignupComponent {
     },
   ];
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+  ) { }
 
   signup(): void {
-    this.http.post('http://localhost:8000/api/user/signup', this.signupForm.value)
+    this.http.post(`${environment.baseUrl}/${ApiPaths.Signup}`, this.signupForm.value)
       .subscribe(
         ({ message }: { message: string }): void => {
           this.snackBar.emit(message);
