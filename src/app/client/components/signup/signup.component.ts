@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+
 import { environment } from 'src/environments/environment';
 import { ApiPaths } from '../../enums/ApiPaths';
 
@@ -58,14 +59,19 @@ export class SignupComponent {
   ) { }
 
   signup(): void {
-    this.http.post(`${environment.baseUrl}/${ApiPaths.Signup}`, this.signupForm.value)
-      .subscribe(
-        ({ message }: { message: string }): void => {
-          this.snackBar.emit(message);
-          this.router.navigate(['/login']);
-        },
-        ({ error: { message } }): void => message && this.snackBar.emit(message),
-      );
+    const { password, confirmPassword } = this.signupForm.value;
+
+    if (password !== confirmPassword) {
+      return this.snackBar.emit('Password confirmation is incorrect');
+    }
+
+    this.http.post<string>(`${environment.baseUrl}/${ApiPaths.Signup}`, this.signupForm.value).subscribe(
+      (message: string): void => {
+        this.snackBar.emit(message);
+        this.router.navigate(['/login']);
+      },
+      ({ error: { message } }): void => message && this.snackBar.emit(message),
+    );
   }
 
   validation(name: string): boolean {

@@ -2,6 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+
 import { environment } from 'src/environments/environment';
 import { ApiPaths } from '../../enums/ApiPaths';
 
@@ -45,14 +46,13 @@ export class LoginComponent {
   ) { }
 
   login(): void {
-    this.http.post(`${environment.baseUrl}/${ApiPaths.Login}`, this.loginForm.value)
-      .subscribe(
-        ({ token }: { token: string }): void => {
-          localStorage.setItem('token', token);
-          this.router.navigate(['/']);
-        },
-        ({ error: { message } }): void => this.snackBar.emit(message),
-      );
+    this.http.post<string>(`${environment.baseUrl}/${ApiPaths.Login}`, this.loginForm.value).subscribe(
+      (token: string): void => {
+        localStorage.setItem('token', token);
+        this.router.navigate(['/']);
+      },
+      ({ error: { message } }): void => this.snackBar.emit(message),
+    );
   }
 
   validation(name: string): boolean {

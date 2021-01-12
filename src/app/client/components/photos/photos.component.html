@@ -1,9 +1,14 @@
 <section class="photos">
-  <h1>27 Nov 2020</h1>
+  <ng-container *ngIf="!isLoading; else loadingSpinner">
+    <h1>27 Nov 2020</h1>
 
-  <div>
-    <img *ngFor="let photo of photos; let i = index" [src]="photo" (click)="isShowSliderHandler(i)" />
-  </div>
+    <div>
+      <img *ngFor="let photo of photos; let i = index" [src]="photo" (click)="isShowSliderHandler(i)" />
+    </div>
+  </ng-container>
+  <ng-template #loadingSpinner>
+    <mat-spinner></mat-spinner>
+  </ng-template>
 
   <div class="backdrop" *ngIf="isShowSlider">
     <mat-icon class="close" (click)="isShowSlider = false">close</mat-icon>

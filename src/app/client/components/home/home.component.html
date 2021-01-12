@@ -1,12 +1,14 @@
 <ng-container>
-  <mat-toolbar class="home" fxLayout="row" color="primary">
+  <mat-toolbar class="header" fxLayout="row" color="primary">
     <span>Hello <strong>{{ username }}</strong></span>
     <span class="example-spacer"></span>
 
-    <button mat-raised-button fxHide.xs>
+    <button mat-raised-button fxHide.xs (click)="chooseFile()">
       <mat-icon>add</mat-icon>
       Add photo
     </button>
+
+    <input type="file" (change)="uploadPhotoHandler($event)" (click)="$event.target.value = ''" #uploadPhoto hidden />
 
     <button mat-raised-button color="accent" (click)="logout()" fxHide.xs>
       <mat-icon>logout</mat-icon>
@@ -14,15 +16,17 @@
     </button>
 
     <button mat-icon-button [matMenuTriggerFor]="dropMenu" fxHide fxShow.xs>
-      <mat-icon>more_vert</mat-icon>
+      <mat-icon>menu</mat-icon>
     </button>
 
     <mat-menu #dropMenu="matMenu">
       <div class="mobile-menu">
-        <button mat-raised-button color="primary">
+        <button mat-raised-button color="primary" (click)="chooseFile()">
           <mat-icon>add</mat-icon>
           Add photo
         </button>
+
+        <input type="file" (change)="uploadPhotoHandler($event)" (click)="$event.target.value = ''" #uploadPhoto hidden />
 
         <button mat-raised-button color="accent" (click)="logout()">
           <mat-icon>logout</mat-icon>

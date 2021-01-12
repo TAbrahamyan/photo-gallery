@@ -1,5 +1,7 @@
 export enum ApiPaths {
   Login = 'user/login',
   Signup = 'user/signup',
-  Me = 'user/me',
+  GetUser = 'user/get-user',
+  Upload = 'upload/upload-photo',
+  GetPhotos = 'upload/get-photos',
 };

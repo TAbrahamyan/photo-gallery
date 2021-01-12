@@ -30,8 +30,7 @@ router.post('/signup', signupValidation, async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 12);
     const newUser = new User({ username, email, password: hashedPassword });
     await newUser.save();
-
-    res.status(200).json({ message: 'Successful registration' });
+    res.status(200).json('Successful registration');
   } catch {
     res.status(500).send('Error in saving');
   }
@@ -62,18 +61,18 @@ router.post('/login', loginValidation, async (req, res) => {
       { expiresIn: '1h' },
     );
 
-    res.status(200).json({ token });
+    res.status(200).json(token);
   } catch {
     res.status(500).json({ message: 'Server error' });
   }
 });
 
-router.get('/me', checkAuth, async (req: any, res: any) => {
+router.get('/get-user', checkAuth, async (req: any, res: any) => {
   try {
     const user = await User.findById(req.userId);
-    res.status(200).json(user);
+    res.status(200).json(user.username);
   } catch {
-    res.send({ message: 'Error in fetching user' });
+    res.status(401).json({ message: 'Error in fetching user' });
   }
 });
 
