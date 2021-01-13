@@ -2,28 +2,40 @@
 
 .photos
   display $flex
+  flex-direction: $column
   flex-wrap $wrap
-  flex-direction $column
   padding 2rem
 
-  & > h1,
-  & > div
+  & > h1
+    @media (max-width 700px)
+      text-align $center
+
+  &__list
+    display $flex
+
     @media (max-width 700px)
       display $flex
       justify-content $center
       flex-wrap $wrap
-      text-align $center
 
-  img
-    width $size100percent
-    max-width 150px
-    height 120px
-    border-radius 8px
-    margin 0.5rem 1rem 0 0
-    cursor pointer
+    .photo
+      button
+        position relative
+        top 30%
+        color white
 
-    @media (max-width 700px)
-      margin 0.5rem
+      img
+        display block
+        width $size100percent
+        max-width 150px
+        height 120px
+        border-radius 8px
+        margin 0.5rem 1rem 0 0
+        cursor $pointer
+        transition 0.5s
+
+        @media (max-width 700px)
+          margin 0.5rem
 
 .backdrop
   position fixed
@@ -56,3 +68,18 @@
 
     @media (max-width 480px)
       padding-top 7%
+
+.menu
+  display $flex
+  flex-direction $column
+  width 150px
+
+  div
+    display $flex
+    align-items $center
+    cursor $pointer
+    margin 0.5rem
+
+  div
+    &:hover
+      filter: opacity(0.5);

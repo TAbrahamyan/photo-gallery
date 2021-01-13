@@ -1,19 +1,39 @@
 <section class="photos">
-  <ng-container *ngIf="!isLoading; else loadingSpinner">
-    <h1>27 Nov 2020</h1>
+  <h1>27 Nov 2020</h1>
 
-    <div>
-      <img *ngFor="let photo of photos; let i = index" [src]="photo" (click)="isShowSliderHandler(i)" />
-    </div>
-  </ng-container>
-  <ng-template #loadingSpinner>
-    <mat-spinner></mat-spinner>
-  </ng-template>
+  <div class="photos__list">
+    <ng-container *ngIf="!isLoading; else loadingSpinner">
+      <div *ngFor="let photo of photos; let i = index" class="photo">
+        <button mat-icon-button [matMenuTriggerFor]="dropMenu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+
+        <mat-menu #dropMenu="matMenu">
+          <div class="menu">
+            <div (click)="deletePhoto(i)">
+              <mat-icon>delete</mat-icon>
+              Delete
+            </div>
+
+            <div>
+              <mat-icon>download</mat-icon>
+              Download
+            </div>
+          </div>
+        </mat-menu>
+
+        <img [src]="photo" (click)="isShowSliderHandler(i)" />
+      </div>
+    </ng-container>
+    <ng-template #loadingSpinner>
+      <mat-spinner></mat-spinner>
+    </ng-template>
+  </div>
 
   <div class="backdrop" *ngIf="isShowSlider">
     <mat-icon class="close" (click)="isShowSlider = false">close</mat-icon>
 
-    <swiper [slidesPerView]="1" [navigation]="true" [simulateTouch]="false" [initialSlide]="imageIndex">
+    <swiper [slidesPerView]="1" [navigation]="true" [simulateTouch]="false" [initialSlide]="photoIndex">
       <ng-template *ngFor="let photo of photos" swiperSlide>
         <img [src]="photo" />
       </ng-template>

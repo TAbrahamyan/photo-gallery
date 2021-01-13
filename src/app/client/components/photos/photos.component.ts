@@ -14,9 +14,9 @@ SwiperCore.use([Navigation]);
   styleUrls: ['./photos.component.styl']
 })
 export class PhotosComponent implements OnInit {
-  imageIndex: number = -1;
+  photoIndex: number = -1;
   isShowSlider: boolean = false;
-  isLoading: boolean = true;
+  isLoading: boolean = false;
   headers: HttpHeaders = new HttpHeaders({
     token: localStorage.getItem('token'),
   });
@@ -31,15 +31,29 @@ export class PhotosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.http.get<string[]>(`${environment.baseUrl}/${ApiPaths.GetPhotos}`, { headers: this.headers })
-      .subscribe((data: string[]) => {
+    this.isLoading = true;
+    this.http.get<string[]>(`${environment.baseUrl}/${ApiPaths.GetPhotos}`, { headers: this.headers }).subscribe(
+      (data: string[]) => {
         this.photosService.photos = data;
-        this.isLoading = false;
-      });
+      },
+      () => {},
+      () => this.isLoading = false,
+    );
   }
 
   isShowSliderHandler(index: number): void {
-    this.imageIndex = index;
+    this.photoIndex = index;
     this.isShowSlider = true;
+  }
+
+  deletePhoto(photoIndex: number): void {
+    this.isLoading = true;
+    this.http.delete<string[]>(`${environment.baseUrl}/${ApiPaths.DeletePhoto}/${photoIndex}`, { headers: this.headers }).subscribe(
+      (data: string[]) => {
+        this.photosService.photos = data;
+      },
+      () => {},
+      () => this.isLoading = false,
+    );
   }
 }
