@@ -2,7 +2,7 @@ export enum ApiPaths {
   Login = 'user/login',
   Signup = 'user/signup',
   GetUser = 'user/get-user',
-  Upload = 'upload/upload-photo',
-  GetPhotos = 'upload/get-photos',
-  DeletePhoto = 'upload/delete-photo',
+  Upload = 'photo/upload',
+  GetPhotos = 'photo/get-photos',
+  DeletePhoto = 'photo/delete-photo',
 };

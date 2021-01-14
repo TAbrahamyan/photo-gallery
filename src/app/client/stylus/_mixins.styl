@@ -3,3 +3,28 @@ font-face(url, fontWeight)
     font-family 'Heebo'
     src url(url)
     font-weight fontWeight
+
+drop-menus()
+  .mat-menu-header
+    @media (min-width 600px)
+      display $none
+
+    .mobile-menu
+      display $flex
+      flex-direction $column
+
+    button
+      margin 0.5rem
+
+  .photos-menu
+    display $flex
+    flex-direction $column
+    width 150px
+
+    div
+      display $flex
+      align-items $center
+      cursor $pointer
+      margin 0.5rem
+      &:hover
+        filter opacity(0.5);

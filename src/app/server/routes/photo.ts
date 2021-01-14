@@ -4,7 +4,7 @@ import User from '../models/User';
 
 const router = Router();
 
-router.post('/upload-photo', checkAuth, async (req: any, res: any) => {
+router.post('/upload', checkAuth, async (req: any, res: any) => {
   try {
     const user = await User.findByIdAndUpdate(
       { _id: req.userId },

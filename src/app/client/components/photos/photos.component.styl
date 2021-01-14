@@ -12,30 +12,27 @@
 
   &__list
     display $flex
-
+    flex-wrap wrap
     @media (max-width 700px)
       display $flex
       justify-content $center
       flex-wrap $wrap
 
-    .photo
-      button
-        position relative
-        top 30%
-        color white
+    button
+      position relative
+      color $white
+      top 30%
 
-      img
-        display block
-        width $size100percent
-        max-width 150px
-        height 120px
-        border-radius 8px
-        margin 0.5rem 1rem 0 0
-        cursor $pointer
-        transition 0.5s
-
-        @media (max-width 700px)
-          margin 0.5rem
+    img
+      display block
+      width $size100percent
+      max-width 150px
+      height 120px
+      border-radius 8px
+      margin 0.5rem 1rem 0 0
+      cursor $pointer
+      @media (max-width 700px)
+        margin 0.5rem
 
 .backdrop
   position fixed
@@ -53,7 +50,7 @@
     right 0.5%
     font-size 2em
     float right
-    color white
+    color $white
     cursor $pointer
 
   img
@@ -62,24 +59,7 @@
     max-width 700px
     height auto
     margin 0 auto
-
     @media (max-width 767px)
       height 450px
-
     @media (max-width 480px)
       padding-top 7%
-
-.menu
-  display $flex
-  flex-direction $column
-  width 150px
-
-  div
-    display $flex
-    align-items $center
-    cursor $pointer
-    margin 0.5rem
-
-  div
-    &:hover
-      filter: opacity(0.5);

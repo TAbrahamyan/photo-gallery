@@ -14,14 +14,16 @@ import { HomeComponent } from './client/components/home/home.component';
 import { LoginComponent } from './client/components/login/login.component';
 import { SignupComponent } from './client/components/signup/signup.component';
 import { PhotosComponent } from './client/components/photos/photos.component';
+import { HeaderComponent } from './client/components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
     LoginComponent,
     SignupComponent,
+    HomeComponent,
     PhotosComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

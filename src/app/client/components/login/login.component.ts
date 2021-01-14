@@ -16,7 +16,6 @@ interface IInputsConfig {
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['../../../app.component.styl']
 })
 export class LoginComponent {
   @Output() snackBar = new EventEmitter();
