@@ -5,4 +5,4 @@ export enum ApiPaths {
   Upload = 'upload/upload-photo',
   GetPhotos = 'upload/get-photos',
   DeletePhoto = 'upload/delete-photo',
-}
+};

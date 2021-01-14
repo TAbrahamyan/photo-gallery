@@ -10,14 +10,14 @@
 
         <mat-menu #dropMenu="matMenu">
           <div class="menu">
+            <div (click)="download(photo)">
+              <mat-icon>download</mat-icon>
+              Download
+            </div>
+
             <div (click)="deletePhoto(i)">
               <mat-icon>delete</mat-icon>
               Delete
-            </div>
-
-            <div>
-              <mat-icon>download</mat-icon>
-              Download
             </div>
           </div>
         </mat-menu>

@@ -46,6 +46,15 @@ export class PhotosComponent implements OnInit {
     this.isShowSlider = true;
   }
 
+  download(photo: string): void {
+    const aTag = document.createElement("a");
+    document.body.appendChild(aTag);
+    aTag.href = photo;
+    aTag.download = 'untitled.png';
+    aTag.click();
+    aTag.remove();
+  }
+
   deletePhoto(photoIndex: number): void {
     this.isLoading = true;
     this.http.delete<string[]>(`${environment.baseUrl}/${ApiPaths.DeletePhoto}/${photoIndex}`, { headers: this.headers }).subscribe(
