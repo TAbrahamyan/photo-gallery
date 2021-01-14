@@ -5,7 +5,7 @@
 
     <button mat-raised-button fxHide.xs (click)="chooseFile()">
       <mat-icon>add</mat-icon>
-      Add photo
+      Add photos
     </button>
 
     <input type="file" (change)="uploadPhotoHandler($event)" (click)="$event.target.value = ''" #uploadPhoto hidden />
@@ -23,7 +23,7 @@
       <div class="mobile-menu">
         <button mat-raised-button color="primary" (click)="chooseFile()">
           <mat-icon>add</mat-icon>
-          Add photo
+          Add photos
         </button>
 
         <input type="file" (change)="uploadPhotoHandler($event)" (click)="$event.target.value = ''" #uploadPhoto hidden />

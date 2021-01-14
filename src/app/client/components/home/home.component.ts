@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { environment } from 'src/environments/environment';
 import { ApiPaths } from '../../enums/ApiPaths';
@@ -22,6 +23,7 @@ export class HomeComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private photosService: PhotosService,
+    private _snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -45,6 +47,16 @@ export class HomeComponent implements OnInit {
   }
 
   uploadPhotoHandler({ target: { files } }): void {
+    if (!files[0].type.match('image.*')) {
+      this._snackBar.open('Please upload only images', 'Close', {
+        duration: 10000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+      });
+
+      return;
+    }
+
     if (files && files[0]) {
       const reader: any = new FileReader();
       reader.onload = (): void => {
