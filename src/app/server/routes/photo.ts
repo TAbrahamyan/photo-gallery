@@ -32,4 +32,13 @@ router.delete('/delete-photo/:id', async (req, res) => {
   }
 });
 
+router.patch('/delete-selected', async (req, res) => {
+  try {
+    await Photo.deleteMany({ _id: req.body.selectedPhotos.map(({ photoId }) => photoId) });
+    res.status(200).json({ message: 'Successful deleting' });
+  } catch {
+    res.status(500).json({ message: 'Error while deleting' });
+  }
+});
+
 export default router;

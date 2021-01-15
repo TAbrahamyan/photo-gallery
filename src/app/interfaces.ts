@@ -37,4 +37,9 @@ export interface IPhotos {
   createdAt: string;
   updatedAt: string;
 }
+
+export interface ISelectedPhotos {
+  photoId: string;
+  photoIndex: number;
+}
 // Client interfaces
