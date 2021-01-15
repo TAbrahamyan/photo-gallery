@@ -1,8 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
+import { IPhotos } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
 import { ApiPaths } from '../../enums/ApiPaths';
 import { PhotosService } from '../../services/photos.service';
@@ -13,7 +13,7 @@ import { PhotosService } from '../../services/photos.service';
   styles: [`
     .example-spacer { flex: 1 1 auto }
     button { margin: 0.5rem }
-  `]
+  `],
 })
 export class HeaderComponent implements OnInit {
   @ViewChild('uploadPhoto') uploadPhoto: ElementRef;
@@ -26,7 +26,6 @@ export class HeaderComponent implements OnInit {
     private http: HttpClient,
     private router: Router,
     private photosService: PhotosService,
-    private _snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
@@ -55,24 +54,23 @@ export class HeaderComponent implements OnInit {
 
   uploadPhotoHandler({ target: { files } }): void {
     if (!files[0].type.match('image.*')) {
-      this._snackBar.open('Please upload only images', 'Close', {
-        duration: 10000,
-        horizontalPosition: 'end',
-        verticalPosition: 'top',
-      });
-
+      this.photosService.snackBar('Please upload only images');
       return;
     }
 
     if (files && files[0]) {
-      const reader: any = new FileReader();
+      const reader: FileReader = new FileReader();
       reader.onload = (): void => {
-        this.photosService.photos.push(reader.result);
-        this.http.post<string>(
+        this.photosService.isLoading = true;
+        this.http.post<IPhotos>(
           `${environment.baseUrl}/${ApiPaths.Upload}`,
           { photo: reader.result },
           { headers: this.headers },
-        ).subscribe();
+        ).subscribe(
+          (data: IPhotos) => this.photosService.photos.push(data),
+          () => {},
+          () => this.photosService.isLoading = false,
+        );
       };
       reader.readAsDataURL(files[0]);
     }

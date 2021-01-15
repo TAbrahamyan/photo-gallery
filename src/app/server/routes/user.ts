@@ -45,7 +45,7 @@ router.post('/login', loginValidation, async (req, res) => {
   const { email, password } = req.body;
 
   try {
-    const user: any = await User.findOne({ email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: 'Incorrect password or email' });
     }
@@ -67,7 +67,7 @@ router.post('/login', loginValidation, async (req, res) => {
   }
 });
 
-router.get('/get-user', checkAuth, async (req: any, res: any) => {
+router.get('/get-user', checkAuth, async (req: any, res) => {
   try {
     const user = await User.findById(req.userId);
     res.status(200).json(user.username);

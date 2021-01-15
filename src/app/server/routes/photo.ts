@@ -1,45 +1,34 @@
 import { Router } from 'express';
 import checkAuth from '../middleware/checkAuth';
-import User from '../models/User';
+import Photo from '../models/Photo';
 
 const router = Router();
 
-router.post('/upload', checkAuth, async (req: any, res: any) => {
+router.post('/upload', checkAuth, async (req: any, res) => {
   try {
-    const user = await User.findByIdAndUpdate(
-      { _id: req.userId },
-      { $push: { photos: req.body.photo } },
-      { new: true },
-    );
-
-    res.status(200).json(user.photos);
+    const newPhoto = new Photo({ owner: req.userId, src: req.body.photo });
+    await newPhoto.save();
+    res.status(201).json(newPhoto);
   } catch {
     res.status(500).json({ message: 'Error in upload photo' });
   }
 });
 
-router.get('/get-photos', checkAuth, async (req: any, res: any) => {
+router.get('/get-photos', checkAuth, async (req: any, res) => {
   try {
-    const user = await User.findById(req.userId);
-    res.status(200).json(user.photos);
+    const photos = await Photo.find({ owner: req.userId });
+    res.status(200).json(photos);
   } catch {
-    res.status(400).json({ message: 'Error on getting photos' });
+    res.status(500).json({ message: 'Error on getting photos' });
   }
 });
 
-router.delete('/delete-photo/:photoIndex', checkAuth, async (req: any, res: any) => {
+router.delete('/delete-photo/:id', async (req, res) => {
   try {
-    const user = await User.findById(req.userId);
-    const updatedPhotos = user.photos.filter((_, i) => i !== +req.params.photoIndex);
-    const updatedUser = await User.findByIdAndUpdate(
-      { _id: req.userId },
-      { $set: { photos: updatedPhotos } },
-      { new: true },
-    );
-
-    res.status(200).json(updatedUser.photos);
+    const deletedPhoto = await Photo.findByIdAndDelete({ _id: req.params.id });
+    res.status(200).json(deletedPhoto);
   } catch {
-    res.status(405).json({ message: 'Error while deleting' });
+    res.status(500).json({ message: 'Error while deleting' });
   }
 });
 

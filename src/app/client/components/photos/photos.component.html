@@ -10,19 +10,19 @@
 
         <mat-menu #dropMenu="matMenu">
           <div class="photos-menu">
-            <div (click)="download(photo)">
+            <div (click)="download(photo.src)">
               <mat-icon>download</mat-icon>
               Download
             </div>
 
-            <div (click)="deletePhoto(i)">
+            <div (click)="deletePhoto(photo._id)">
               <mat-icon>delete</mat-icon>
               Delete
             </div>
           </div>
         </mat-menu>
 
-        <img [src]="photo" (click)="isShowSliderHandler(i)" />
+        <img [src]="photo.src" (click)="isShowSliderHandler(i)" />
       </div>
     </ng-container>
     <ng-template #loadingSpinner>
@@ -35,7 +35,7 @@
 
     <swiper [slidesPerView]="1" [navigation]="true" [simulateTouch]="false" [initialSlide]="photoIndex">
       <ng-template *ngFor="let photo of photos" swiperSlide>
-        <img [src]="photo" />
+        <img [src]="photo.src" />
       </ng-template>
     </swiper>
   </div>

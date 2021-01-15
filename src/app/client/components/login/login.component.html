@@ -2,7 +2,7 @@
   <p><strong>Log in</strong> to continue</p>
 
   <form [formGroup]="loginForm" (ngSubmit)="login()">
-    <div *ngFor="let input of inputsConfig">
+    <div *ngFor="let input of inputsConfig | slice: 1:3">
       <mat-form-field>
         <mat-label>{{ input.label }}</mat-label>
         <input matInput [type]="input.type" [formControlName]="input.controlName" required />

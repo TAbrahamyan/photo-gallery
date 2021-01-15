@@ -11,7 +11,7 @@
       <p *ngIf="validation(input.controlName)">{{ input.validationText }}</p>
     </div>
 
-    <button mat-raised-button color="primary" [disabled]="disabledButton">Sign up</button>
+    <button mat-raised-button color="primary" [disabled]="signupForm.invalid">Sign up</button>
   </form>
 
   <p class="go" [routerLink]="['/login']">Already have account?</p>

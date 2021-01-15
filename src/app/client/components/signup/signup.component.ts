@@ -1,24 +1,19 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
+import { IInputsConfig } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
 import { ApiPaths } from '../../enums/ApiPaths';
-
-interface IInputsConfig {
-  type: string;
-  label: string;
-  controlName: string;
-  validationText?: string;
-}
+import { LoginSignupService } from '../../services/login-signup.service';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
+  styleUrls: ['../../../app.component.styl'],
 })
 export class SignupComponent {
-  @Output() snackBar = new EventEmitter();
   signupForm: FormGroup = new FormGroup({
     username: new FormControl('', [ Validators.required, ({ value }) => value.replace(/[\w-]+/g, '') ]),
     email: new FormControl('', [ Validators.required, Validators.email, Validators.pattern('^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$') ]),
@@ -26,60 +21,34 @@ export class SignupComponent {
     confirmPassword: new FormControl('', [ Validators.required, Validators.minLength(4) ]),
   });
 
-  inputsConfig: IInputsConfig[] = [
-    {
-      type: 'text',
-      label: 'Username',
-      controlName: 'username',
-      validationText: 'Username must not contain special symbols',
-    },
-    {
-      type: 'email',
-      label: 'Email',
-      controlName: 'email',
-      validationText: 'Invalid email',
-    },
-    {
-      type: 'password',
-      label: 'Password',
-      controlName: 'password',
-      validationText: 'Password minimum length is 4',
-    },
-    {
-      type: 'password',
-      label: 'Confirm password',
-      controlName: 'confirmPassword',
-    },
-  ];
+  get inputsConfig(): IInputsConfig[] {
+    return this.loginSignupService.inputsConfig;
+  }
 
   constructor(
     private http: HttpClient,
     private router: Router,
+    private loginSignupService: LoginSignupService,
   ) { }
 
   signup(): void {
     const { password, confirmPassword } = this.signupForm.value;
 
     if (password !== confirmPassword) {
-      return this.snackBar.emit('Password confirmation is incorrect');
+      return this.loginSignupService.snackBar('Password confirmation is incorrect');
     }
 
     this.http.post<string>(`${environment.baseUrl}/${ApiPaths.Signup}`, this.signupForm.value).subscribe(
       (message: string): void => {
-        this.snackBar.emit(message);
+        this.loginSignupService.snackBar(message);
         this.router.navigate(['/login']);
       },
-      ({ error: { message } }): void => message && this.snackBar.emit(message),
+      ({ error: { message } }): void => message && this.loginSignupService.snackBar(message),
     );
   }
 
   validation(name: string): boolean {
     const { [name]: controlName } = this.signupForm.controls;
     return controlName.errors && controlName.touched && controlName.value;
-  }
-
-  get disabledButton(): boolean {
-    const { password, confirmPassword } = this.signupForm.value;
-    return this.signupForm.invalid || (password !== confirmPassword);
   }
 }

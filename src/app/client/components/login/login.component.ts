@@ -1,47 +1,32 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
+import { IInputsConfig } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
 import { ApiPaths } from '../../enums/ApiPaths';
-
-interface IInputsConfig {
-  type: string;
-  label: string;
-  controlName: string;
-  validationText: string;
-}
+import { LoginSignupService } from '../../services/login-signup.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
+  styleUrls: ['../../../app.component.styl'],
 })
 export class LoginComponent {
-  @Output() snackBar = new EventEmitter();
   loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [ Validators.required, Validators.email, Validators.pattern('^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$') ]),
     password: new FormControl('', [ Validators.required, Validators.minLength(4) ]),
   });
 
-  inputsConfig: IInputsConfig[] = [
-    {
-      type: 'email',
-      label: 'Email',
-      controlName: 'email',
-      validationText: 'Invalid email',
-    },
-    {
-      type: 'password',
-      label: 'Password',
-      controlName: 'password',
-      validationText: 'Password minimum length is 4',
-    },
-  ];
+  get inputsConfig(): IInputsConfig[] {
+    return this.loginSignupService.inputsConfig;
+  }
 
   constructor(
     private http: HttpClient,
     private router: Router,
+    private loginSignupService: LoginSignupService,
   ) { }
 
   login(): void {
@@ -50,7 +35,7 @@ export class LoginComponent {
         localStorage.setItem('token', token);
         this.router.navigate(['/']);
       },
-      ({ error: { message } }): void => this.snackBar.emit(message),
+      ({ error: { message } }): void => this.loginSignupService.snackBar(message),
     );
   }
 
