@@ -37,6 +37,10 @@ export class PhotosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.getPhotos();
+  }
+
+  getPhotos(): void {
     this.photosService.isLoading = true;
     this.http.get<IPhotos[]>(`${environment.baseUrl}/${ApiPaths.GetPhotos}`, { headers: this.headers }).subscribe(
       (data: IPhotos[]) => this.photosService.photos = data,
@@ -46,48 +50,48 @@ export class PhotosComponent implements OnInit {
   }
 
   isShowSliderHandler(index: number): void {
-    this.photoIndex = index;
-    this.isShowSlider = true;
+    if (!this.isSelect) {
+      this.photoIndex = index;
+      this.isShowSlider = true;
+    }
   }
 
-  selectCheckbox(photoId: string, photoIndex: number): void {
+  selectPhotos(photoId: string, photoLink: string, photoIndex: number): void {
     if (this.selectedPhotos.map(photo => photo.photoIndex).includes(photoIndex)) {
       this.selectedPhotos = this.selectedPhotos.filter(photo => photo.photoIndex !== photoIndex);
       return;
     }
 
-    this.selectedPhotos.push({ photoId, photoIndex  });
+    this.selectedPhotos.push({ photoId, photoLink, photoIndex  });
   }
 
   deleteSelected(): void {
-    this.photosService.isLoading = true;
-    this.photosService.photos = this.photosService.photos
-      .filter(({ _id }) => this.selectedPhotos.every(({ photoId }) => photoId !== _id));
-    this.http.patch(`${environment.baseUrl}/${ApiPaths.DeleteSelected}`, { selectedPhotos: this.selectedPhotos }).subscribe(
-      () => {},
-      () => {},
-      () => {
-        this.photosService.isLoading = false;
-        this.isSelect = false;
-      },
-    );
+    const photosId: string[] = this.selectedPhotos.map(({ photoId }) => photoId);
+    this.http.patch(`${environment.baseUrl}/${ApiPaths.DeleteSelected}`, { photosId }).subscribe(() => this.getPhotos());
+    this.isSelect = false;
   }
 
   deletePhoto(id: string): void {
-    this.photosService.isLoading = true;
-    this.photosService.photos = this.photosService.photos.filter(photo => photo._id !== id);
-    this.http.delete<IPhotos>(`${environment.baseUrl}/${ApiPaths.DeletePhoto}/${id}`).subscribe(
-      () => {},
-      () => {},
-      () => this.photosService.isLoading = false,
-    );
+    this.http.delete<IPhotos>(`${environment.baseUrl}/${ApiPaths.DeletePhoto}/${id}`).subscribe(() => this.getPhotos());
+  }
+
+  downloadSelected(): void {
+    for (let i = 0; i < this.selectedPhotos.length; i++) {
+      this.photoDownloading(this.selectedPhotos[i].photoLink, `${i+1}.untitled.png`);
+    }
+
+    this.isSelect = false;
   }
 
   download(photo: string): void {
+    this.photoDownloading(photo, 'untitled.png');
+  }
+
+  photoDownloading(link: string, name: string): void {
     const aTag = document.createElement('a');
     document.body.appendChild(aTag);
-    aTag.href = photo;
-    aTag.download = 'untitled.png';
+    aTag.href = link;
+    aTag.download = name;
     aTag.click();
     aTag.remove();
   }

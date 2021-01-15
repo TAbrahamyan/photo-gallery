@@ -40,6 +40,7 @@ export interface IPhotos {
 
 export interface ISelectedPhotos {
   photoId: string;
+  photoLink: string;
   photoIndex: number;
 }
 // Client interfaces

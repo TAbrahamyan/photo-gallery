@@ -42,7 +42,7 @@
         </mat-menu>
 
         <img [src]="photo.src" [ngClass]="{'is-select': isSelect}" (click)="isShowSliderHandler(i)" />
-        <input type="checkbox" class="select-checkbox" (change)="selectCheckbox(photo._id, i)" *ngIf="isSelect">
+        <input type="checkbox" class="select-checkbox" (change)="selectPhotos(photo._id, photo.src, i)" *ngIf="isSelect">
       </div>
     </ng-container>
     <ng-template #loadingSpinner>
@@ -50,7 +50,7 @@
     </ng-template>
   </div>
 
-  <div class="backdrop" *ngIf="isShowSlider && !isSelect">
+  <div class="backdrop" *ngIf="isShowSlider">
     <mat-icon class="close" (click)="isShowSlider = false">close</mat-icon>
 
     <swiper [slidesPerView]="1" [navigation]="true" [simulateTouch]="false" [initialSlide]="photoIndex">

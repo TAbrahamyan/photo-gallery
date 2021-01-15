@@ -70,7 +70,7 @@ router.post('/login', loginValidation, async (req, res) => {
 router.get('/get-user', checkAuth, async (req: any, res) => {
   try {
     const user = await User.findById(req.userId);
-    res.status(200).json(user.username);
+    res.status(200).json(user);
   } catch {
     res.status(401).json({ message: 'Error in fetching user' });
   }

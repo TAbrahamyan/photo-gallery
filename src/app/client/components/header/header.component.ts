@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.http.get<string>(`${environment.baseUrl}/${ApiPaths.GetUser}`, { headers: this.headers }).subscribe(
-      (username: string): string => this.username = username,
+      (data: any) => this.username = data.username,
       (error: HttpErrorResponse): void => {
         if (error.status === 500) {
           this.logout();
