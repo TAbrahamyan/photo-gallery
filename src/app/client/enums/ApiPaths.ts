@@ -1,9 +1,13 @@
 export enum ApiPaths {
+  // User Auth
   Login = 'user/login',
   Signup = 'user/signup',
-  GetUser = 'user/get-user',
-  Upload = 'photo/upload',
-  GetPhotos = 'photo/get-photos',
-  DeletePhoto = 'photo/delete-photo',
-  DeleteSelected = 'photo/delete-selected',
+  GetUser = 'user/me',
+  // User Auth
+  // Photo Api
+  UploadPhotos = 'photo/upload',
+  GetPhotos = 'photo/photos',
+  DeletePhoto = 'photo',
+  BulkDelete = 'photo/bulk-delete',
+  // Photo Api
 };

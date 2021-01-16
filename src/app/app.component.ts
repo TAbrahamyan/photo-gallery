@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,10 @@ import { Router } from '@angular/router';
   styleUrls: ['./app.component.styl']
 })
 export class AppComponent implements OnInit {
-  constructor(public router: Router) { }
+  constructor(
+    public router: Router,
+    private _snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit(): void {
     if (!!localStorage.getItem('token')) {
@@ -15,5 +19,13 @@ export class AppComponent implements OnInit {
     } else {
       this.router.navigate(['/login']);
     }
+  }
+
+  snackBar(message: string): void {
+    this._snackBar.open(message, 'Close', {
+      duration: 5000,
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+    });
   }
 }

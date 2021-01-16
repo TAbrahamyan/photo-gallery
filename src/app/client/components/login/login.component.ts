@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { IInputsConfig } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
 import { ApiPaths } from '../../enums/ApiPaths';
-import { LoginSignupService } from '../../services/login-signup.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -14,19 +14,20 @@ import { LoginSignupService } from '../../services/login-signup.service';
   styleUrls: ['../../../app.component.styl'],
 })
 export class LoginComponent {
+  @Output() snackBar = new EventEmitter();
   loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [ Validators.required, Validators.email, Validators.pattern('^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$') ]),
     password: new FormControl('', [ Validators.required, Validators.minLength(4) ]),
   });
 
   get inputsConfig(): IInputsConfig[] {
-    return this.loginSignupService.inputsConfig;
+    return this.authService.inputsConfig;
   }
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private loginSignupService: LoginSignupService,
+    public authService: AuthService,
   ) { }
 
   login(): void {
@@ -35,12 +36,7 @@ export class LoginComponent {
         localStorage.setItem('token', token);
         this.router.navigate(['/']);
       },
-      ({ error: { message } }): void => this.loginSignupService.snackBar(message),
+      ({ error: { message } }) => this.snackBar.emit(message),
     );
-  }
-
-  validation(name: string): boolean {
-    const { [name]: controlName } = this.loginForm.controls;
-    return controlName.errors && controlName.touched && controlName.value;
   }
 }

@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { IPhotos } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
@@ -25,6 +26,7 @@ export class HeaderComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
+    private _snackBar: MatSnackBar,
     private photosService: PhotosService,
   ) { }
 
@@ -54,7 +56,11 @@ export class HeaderComponent implements OnInit {
 
   uploadPhotoHandler({ target: { files } }): void {
     if (!files[0].type.match('image.*')) {
-      this.photosService.snackBar('Please upload only images');
+      this._snackBar.open('Please upload only images', 'Close', {
+        duration: 5000,
+        horizontalPosition: 'end',
+        verticalPosition: 'top',
+      });
       return;
     }
 
@@ -63,7 +69,7 @@ export class HeaderComponent implements OnInit {
       reader.onload = (): void => {
         this.photosService.isLoading = true;
         this.http.post<IPhotos>(
-          `${environment.baseUrl}/${ApiPaths.Upload}`,
+          `${environment.baseUrl}/${ApiPaths.UploadPhotos}`,
           { photo: reader.result },
           { headers: this.headers },
         ).subscribe(

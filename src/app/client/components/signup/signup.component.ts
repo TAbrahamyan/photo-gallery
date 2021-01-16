@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -6,7 +6,7 @@ import { Router } from '@angular/router';
 import { IInputsConfig } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
 import { ApiPaths } from '../../enums/ApiPaths';
-import { LoginSignupService } from '../../services/login-signup.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -14,6 +14,7 @@ import { LoginSignupService } from '../../services/login-signup.service';
   styleUrls: ['../../../app.component.styl'],
 })
 export class SignupComponent {
+  @Output() snackBar = new EventEmitter();
   signupForm: FormGroup = new FormGroup({
     username: new FormControl('', [ Validators.required, ({ value }) => value.replace(/[\w-]+/g, '') ]),
     email: new FormControl('', [ Validators.required, Validators.email, Validators.pattern('^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$') ]),
@@ -22,33 +23,28 @@ export class SignupComponent {
   });
 
   get inputsConfig(): IInputsConfig[] {
-    return this.loginSignupService.inputsConfig;
+    return this.authService.inputsConfig;
   }
 
   constructor(
     private http: HttpClient,
     private router: Router,
-    private loginSignupService: LoginSignupService,
+    public authService: AuthService,
   ) { }
 
-  signup(): void {
+  signup() {
     const { password, confirmPassword } = this.signupForm.value;
 
     if (password !== confirmPassword) {
-      return this.loginSignupService.snackBar('Password confirmation is incorrect');
+      return this.snackBar.emit('Password confirmation is incorrect');
     }
 
     this.http.post<string>(`${environment.baseUrl}/${ApiPaths.Signup}`, this.signupForm.value).subscribe(
       (message: string): void => {
-        this.loginSignupService.snackBar(message);
+        this.snackBar.emit(message);
         this.router.navigate(['/login']);
       },
-      ({ error: { message } }): void => message && this.loginSignupService.snackBar(message),
+      ({ error: { message } }) => message && this.snackBar.emit(message),
     );
-  }
-
-  validation(name: string): boolean {
-    const { [name]: controlName } = this.signupForm.controls;
-    return controlName.errors && controlName.touched && controlName.value;
   }
 }

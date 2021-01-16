@@ -67,7 +67,7 @@ export class PhotosComponent implements OnInit {
 
   deleteSelected(): void {
     const photosId: string[] = this.selectedPhotos.map(({ photoId }) => photoId);
-    this.http.patch(`${environment.baseUrl}/${ApiPaths.DeleteSelected}`, { photosId }).subscribe(() => this.getPhotos());
+    this.http.patch(`${environment.baseUrl}/${ApiPaths.BulkDelete}`, { photosId }).subscribe(() => this.getPhotos());
     this.isSelect = false;
   }
 

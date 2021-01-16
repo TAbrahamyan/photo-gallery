@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormGroup } from '@angular/forms';
 import { IInputsConfig } from 'src/app/interfaces';
 
 @Injectable({
   providedIn: 'root'
 })
-export class LoginSignupService {
+export class AuthService {
   inputsConfig: IInputsConfig[] = [
     {
       type: 'text',
@@ -33,13 +33,8 @@ export class LoginSignupService {
     },
   ];
 
-  constructor(private _snackBar: MatSnackBar) { }
-
-  snackBar(message: string): void {
-    this._snackBar.open(message, 'Close', {
-      duration: 5000,
-      horizontalPosition: 'end',
-      verticalPosition: 'top',
-    });
+  validation(name: string, formGroup: FormGroup): boolean {
+    const { [name]: controlName } = formGroup.controls;
+    return controlName.errors && controlName.touched && controlName.value;
   }
 }
