@@ -27,6 +27,10 @@ export class PhotosComponent implements OnInit {
     return this.photosService.photos;
   }
 
+  get photosDate(): string[] {
+    return this.photosService.photosDate;
+  }
+
   get isLoading(): boolean {
     return this.photosService.isLoading;
   }
@@ -52,7 +56,7 @@ export class PhotosComponent implements OnInit {
       .subscribe(() => this.photosService.getPhotos());
   }
 
-  bulkSelect(photo: IPhotos): void {
+  selectPhoto(photo: IPhotos): void {
     const photosId = this.selectedPhotos.map(({ photoId }) => photoId);
     if (photosId.includes(photo._id)) {
       this.selectedPhotos = this.selectedPhotos.filter(({ photoId }) => photoId !== photo._id);

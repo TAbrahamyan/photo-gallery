@@ -15,6 +15,7 @@ import { LoginComponent } from './client/components/login/login.component';
 import { SignupComponent } from './client/components/signup/signup.component';
 import { PhotosComponent } from './client/components/photos/photos.component';
 import { HeaderComponent } from './client/components/header/header.component';
+import { FilterDatesPipe } from './client/pipes/filter-dates.pipe';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { HeaderComponent } from './client/components/header/header.component';
     HomeComponent,
     PhotosComponent,
     HeaderComponent,
+    FilterDatesPipe,
   ],
   imports: [
     BrowserModule,
