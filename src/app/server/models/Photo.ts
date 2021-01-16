@@ -4,6 +4,7 @@ import { IPhoto } from '../../interfaces';
 const PhotoSchema: Schema = new Schema({
   owner: { type: Schema.Types.ObjectId, ref: 'User' },
   src: String,
+  name: String,
 }, { timestamps: true });
 
 export default model<IPhoto>('Photo', PhotoSchema);

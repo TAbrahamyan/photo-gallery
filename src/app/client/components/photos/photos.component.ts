@@ -37,16 +37,7 @@ export class PhotosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.getPhotos();
-  }
-
-  getPhotos(): void {
-    this.photosService.isLoading = true;
-    this.http.get<IPhotos[]>(`${environment.baseUrl}/${ApiPaths.GetPhotos}`, { headers: this.headers }).subscribe(
-      (data: IPhotos[]) => this.photosService.photos = data,
-      () => {},
-      () => this.photosService.isLoading = false,
-    );
+    this.photosService.getPhotos();
   }
 
   isShowSliderHandler(index: number): void {
@@ -56,35 +47,37 @@ export class PhotosComponent implements OnInit {
     }
   }
 
-  selectPhotos(photoId: string, photoLink: string, photoIndex: number): void {
-    if (this.selectedPhotos.map(photo => photo.photoIndex).includes(photoIndex)) {
-      this.selectedPhotos = this.selectedPhotos.filter(photo => photo.photoIndex !== photoIndex);
+  deletePhoto(id: string): void {
+    this.http.delete<IPhotos>(`${environment.baseUrl}/${ApiPaths.DeletePhoto}/${id}`)
+      .subscribe(() => this.photosService.getPhotos());
+  }
+
+  bulkSelect(photo: IPhotos): void {
+    const photosId = this.selectedPhotos.map(({ photoId }) => photoId);
+    if (photosId.includes(photo._id)) {
+      this.selectedPhotos = this.selectedPhotos.filter(({ photoId }) => photoId !== photo._id);
       return;
     }
 
-    this.selectedPhotos.push({ photoId, photoLink, photoIndex  });
+    this.selectedPhotos.push({ photoId: photo._id, photoLink: photo.src, photoName: photo.name });
   }
 
-  deleteSelected(): void {
+  bulkDelete(): void {
     const photosId: string[] = this.selectedPhotos.map(({ photoId }) => photoId);
-    this.http.patch(`${environment.baseUrl}/${ApiPaths.BulkDelete}`, { photosId }).subscribe(() => this.getPhotos());
+    this.http.patch(`${environment.baseUrl}/${ApiPaths.BulkDelete}`, { photosId })
+      .subscribe(() => this.photosService.getPhotos());
     this.isSelect = false;
+    this.selectedPhotos.length = 0;
   }
 
-  deletePhoto(id: string): void {
-    this.http.delete<IPhotos>(`${environment.baseUrl}/${ApiPaths.DeletePhoto}/${id}`).subscribe(() => this.getPhotos());
-  }
-
-  downloadSelected(): void {
-    for (let i = 0; i < this.selectedPhotos.length; i++) {
-      this.photoDownloading(this.selectedPhotos[i].photoLink, `${i+1}.untitled.png`);
-    }
-
+  bulkDownload(): void {
+    this.selectedPhotos.forEach(({ photoLink, photoName }) => this.photoDownloading(photoLink, photoName));
     this.isSelect = false;
+    this.selectedPhotos.length = 0;
   }
 
-  download(photo: string): void {
-    this.photoDownloading(photo, 'untitled.png');
+  download(photo: IPhotos): void {
+    this.photoDownloading(photo.src, photo.name);
   }
 
   photoDownloading(link: string, name: string): void {

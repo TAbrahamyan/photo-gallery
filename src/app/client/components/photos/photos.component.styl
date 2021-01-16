@@ -7,9 +7,13 @@
   padding 2rem
 
   .is-select-photos
-    margin-top -1.5rem
+    margin-top -1rem
+    @media (max-width 700px)
+      display $flex
+      justify-content $center
+      flex-wrap $wrap
     button
-      margin-right 1rem
+      margin 1rem 0.5rem 0 0
 
   & > h1
     @media (max-width 700px)
@@ -17,11 +21,10 @@
 
   &__list
     display $flex
-    flex-wrap wrap
+    flex-wrap $wrap
     @media (max-width 700px)
       display $flex
       justify-content $center
-      flex-wrap $wrap
 
     button
       position relative

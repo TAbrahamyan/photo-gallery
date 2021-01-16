@@ -4,20 +4,20 @@
       CANCEL
     </button>
 
-    <button mat-raised-button color="primary" (click)="downloadSelected()">
-      DOWNLOAD SELECTED
+    <button mat-raised-button color="primary" (click)="bulkDownload()" [disabled]="!selectedPhotos.length">
+      DOWNLOAD
     </button>
 
-    <button mat-raised-button color="warn" (click)="deleteSelected()">
-      DELETE SELECTED
+    <button mat-raised-button color="warn" (click)="bulkDelete()" [disabled]="!selectedPhotos.length">
+      DELETE
     </button>
   </div>
 
   <h1>27 Nov 2020</h1>
 
   <div class="photos__list">
-    <ng-container *ngIf="!isLoading; else loadingSpinner">
-      <div *ngFor="let photo of photos; let i = index" class="photo">
+    <ng-container *ngIf="!isLoading; else spinner">
+      <div *ngFor="let photo of photos; let i = index">
         <button mat-icon-button [matMenuTriggerFor]="dropMenu" *ngIf="!isSelect">
           <mat-icon>more_vert</mat-icon>
         </button>
@@ -29,7 +29,7 @@
               Select
             </div>
 
-            <div (click)="download(photo.src)">
+            <div (click)="download(photo)">
               <mat-icon>download</mat-icon>
               Download
             </div>
@@ -42,10 +42,10 @@
         </mat-menu>
 
         <img [src]="photo.src" [ngClass]="{'is-select': isSelect}" (click)="isShowSliderHandler(i)" />
-        <input type="checkbox" class="select-checkbox" (change)="selectPhotos(photo._id, photo.src, i)" *ngIf="isSelect">
+        <input type="checkbox" class="select-checkbox" (change)="bulkSelect(photo)" *ngIf="isSelect">
       </div>
     </ng-container>
-    <ng-template #loadingSpinner>
+    <ng-template #spinner>
       <mat-spinner></mat-spinner>
     </ng-template>
   </div>

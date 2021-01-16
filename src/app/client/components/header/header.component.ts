@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.http.get<string>(`${environment.baseUrl}/${ApiPaths.GetUser}`, { headers: this.headers }).subscribe(
       (data: any) => this.username = data.username,
-      (error: HttpErrorResponse): void => {
+      (error: HttpErrorResponse) => {
         if (error.status === 500) {
           this.logout();
         }
@@ -67,16 +67,11 @@ export class HeaderComponent implements OnInit {
     if (files && files[0]) {
       const reader: FileReader = new FileReader();
       reader.onload = (): void => {
-        this.photosService.isLoading = true;
         this.http.post<IPhotos>(
           `${environment.baseUrl}/${ApiPaths.UploadPhotos}`,
-          { photo: reader.result },
+          { photo: reader.result, name: files[0].name },
           { headers: this.headers },
-        ).subscribe(
-          (data: IPhotos) => this.photosService.photos.push(data),
-          () => {},
-          () => this.photosService.isLoading = false,
-        );
+        ).subscribe(() => this.photosService.getPhotos());
       };
       reader.readAsDataURL(files[0]);
     }

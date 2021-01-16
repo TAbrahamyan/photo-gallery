@@ -1,9 +1,9 @@
-import Photo from "../models/Photo";
+import Photo from '../models/Photo';
 
 export class PhotoController {
   static async upload(req, res): Promise<void> {
     try {
-      const newPhoto = new Photo({ owner: req.userId, src: req.body.photo });
+      const newPhoto = new Photo({ owner: req.userId, src: req.body.photo, name: req.body.name });
       await newPhoto.save();
       res.status(201).json(newPhoto);
     } catch {

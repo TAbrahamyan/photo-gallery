@@ -34,6 +34,7 @@ export interface IPhotos {
   _v: number;
   owner: string;
   src: string;
+  name: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -41,6 +42,6 @@ export interface IPhotos {
 export interface ISelectedPhotos {
   photoId: string;
   photoLink: string;
-  photoIndex: number;
+  photoName: string;
 }
 // Client interfaces
