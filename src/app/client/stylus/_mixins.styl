@@ -4,6 +4,21 @@ font-face(url, fontWeight)
     src url(url)
     font-weight fontWeight
 
+profile-backdrop()
+  .profile-dialog
+    .username
+      display $flex
+      align-items $center
+      margin 0.5rem 0
+      div
+        display $flex
+        align-items $center
+        .mat-icon
+          cursor $pointer
+
+  .profile-backdrop
+    background rgba(0, 0, 0, 0.9)
+
 drop-menus()
   .mat-menu-header
     @media (min-width 600px)

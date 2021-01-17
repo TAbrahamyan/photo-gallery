@@ -5,7 +5,7 @@ import SwiperCore, { Navigation } from 'swiper/core';
 import { IPhotos, ISelectedPhotos } from 'src/app/interfaces';
 import { environment } from 'src/environments/environment';
 import { ApiPaths } from '../../enums/ApiPaths';
-import { PhotosService } from '../../services/photos.service';
+import { HomeService } from '../../services/home.service';
 
 SwiperCore.use([ Navigation ]);
 
@@ -24,38 +24,38 @@ export class PhotosComponent implements OnInit {
   });
 
   get photos(): IPhotos[] {
-    return this.photosService.photos;
+    return this.homeService.photos;
   }
 
   get photosDate(): string[] {
-    return this.photosService.photosDate;
+    return this.homeService.photosDate;
   }
 
   get isLoading(): boolean {
-    return this.photosService.isLoading;
+    return this.homeService.isLoading;
   }
 
   constructor(
     private http: HttpClient,
-    private photosService: PhotosService,
+    private homeService: HomeService,
   ) { }
 
   ngOnInit(): void {
-    this.photosService.getPhotos();
+    this.homeService.getPhotos();
   }
 
   formatUploadedDate(date: string): string | Date {
     const months: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
     const localeDate: Date = new Date();
-    const myDate: Date = new Date(date);
+    const uploadedDate: Date = new Date(date);
     let result: string | Date = '';
 
-    if (localeDate.getDate() === myDate.getDate()) {
+    if (localeDate.getDate() === uploadedDate.getDate()) {
       result = 'Today';
-    } else if (localeDate.getDate() - 1 === myDate.getDate()) {
+    } else if (localeDate.getDate() - 1 === uploadedDate.getDate()) {
       result = 'Yesterday';
     } else {
-      result = `${months[myDate.getMonth()]} ${myDate.getDate()}, ${myDate.getFullYear()}`;
+      result = `${months[uploadedDate.getMonth()]} ${uploadedDate.getDate()}, ${uploadedDate.getFullYear()}`;
     }
 
     return result;
@@ -70,7 +70,7 @@ export class PhotosComponent implements OnInit {
 
   deletePhoto(id: string): void {
     this.http.delete<IPhotos>(`${environment.baseUrl}/${ApiPaths.DeletePhoto}/${id}`)
-      .subscribe(() => this.photosService.getPhotos());
+      .subscribe(() => this.homeService.getPhotos());
   }
 
   selectPhoto(photo: IPhotos): void {
@@ -86,7 +86,7 @@ export class PhotosComponent implements OnInit {
   bulkDelete(): void {
     const photosId: string[] = this.selectedPhotos.map(({ photoId }) => photoId);
     this.http.patch(`${environment.baseUrl}/${ApiPaths.BulkDelete}`, { photosId })
-      .subscribe(() => this.photosService.getPhotos());
+      .subscribe(() => this.homeService.getPhotos());
     this.isSelect = false;
     this.selectedPhotos.length = 0;
   }

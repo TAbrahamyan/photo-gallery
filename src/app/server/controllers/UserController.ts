@@ -1,4 +1,5 @@
-import User from '../models/user';
+import User from '../models/User';
+import Photo from '../models/Photo';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import config from '../config/config';
@@ -66,6 +67,29 @@ export class UserController {
       res.status(200).json(user);
     } catch {
       res.status(401).json({ message: 'Error in fetching user' });
+    }
+  }
+
+  static async editUsername(req, res): Promise<void> {
+    try {
+      await User.findByIdAndUpdate(
+        { _id: req.body.id },
+        { $set: { username: req.body.newUsername } },
+        { new: true },
+      );
+      res.status(200).json({ message: 'Username is eddited' });
+    } catch {
+      res.status(500).json({ message: 'Error on editing' });
+    }
+  }
+
+  static async delete(req, res): Promise<void> {
+    try {
+      await User.findByIdAndRemove(req.params.id);
+      await Photo.deleteMany({ owner: req.params.id });
+      res.status(200).json({ message: `User succesfully deleted` });
+    } catch {
+      res.status(500).json({ message: 'Something went wrong' });
     }
   }
 }

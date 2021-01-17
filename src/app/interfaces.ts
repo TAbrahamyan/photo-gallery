@@ -10,7 +10,7 @@ export interface IUser extends Document {
   username: string;
   email: string;
   password: string;
-  photos: any;
+  photos: IPhotos;
 }
 
 export interface IConfig {
@@ -29,9 +29,20 @@ export interface IInputsConfig {
   validationText: string;
 }
 
-export interface IPhotos {
-  _id: string;
+export interface IFrontUser {
   _v: number;
+  _id: string;
+  email: string;
+  username: string;
+  password: string;
+  photos: IPhotos;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface IPhotos {
+  _v: number;
+  _id: string;
   owner: string;
   src: string;
   name: string;

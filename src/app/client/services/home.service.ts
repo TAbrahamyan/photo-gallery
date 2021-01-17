@@ -8,7 +8,7 @@ import { ApiPaths } from '../enums/ApiPaths';
 @Injectable({
   providedIn: 'root'
 })
-export class PhotosService {
+export class HomeService {
   photos: IPhotos[] = [];
   photosDate: string[] = [];
   isLoading: boolean = false;

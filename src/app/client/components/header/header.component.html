@@ -1,5 +1,5 @@
 <mat-toolbar fxLayout="row" color="primary">
-  <span>Hello <strong>{{ username }}</strong></span>
+  <span>Hello <strong (click)="openProfile()" class="open-profile">{{ username }}</strong></span>
   <span class="example-spacer"></span>
 
   <button mat-raised-button fxHide.xs (click)="chooseFile()">

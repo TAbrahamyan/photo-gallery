@@ -3,6 +3,8 @@ export enum ApiPaths {
   Login = 'user/login',
   Signup = 'user/signup',
   GetUser = 'user/me',
+  EditUsername = 'user/edit-username',
+  DeleteUser = 'user',
   // User Auth
   // Photo Api
   UploadPhotos = 'photo/upload',

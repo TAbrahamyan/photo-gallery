@@ -15,6 +15,7 @@ import { LoginComponent } from './client/components/login/login.component';
 import { SignupComponent } from './client/components/signup/signup.component';
 import { PhotosComponent } from './client/components/photos/photos.component';
 import { HeaderComponent } from './client/components/header/header.component';
+import { ProfileDialogComponent } from './client/components/header/profile-dialog/profile-dialog.component';
 import { FilterDatesPipe } from './client/pipes/filter-dates.pipe';
 
 @NgModule({
@@ -25,6 +26,7 @@ import { FilterDatesPipe } from './client/pipes/filter-dates.pipe';
     HomeComponent,
     PhotosComponent,
     HeaderComponent,
+    ProfileDialogComponent,
     FilterDatesPipe,
   ],
   imports: [

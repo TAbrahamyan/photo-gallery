@@ -34,7 +34,7 @@ export class LoginComponent {
     this.http.post<string>(`${environment.baseUrl}/${ApiPaths.Login}`, this.loginForm.value).subscribe(
       (token: string): void => {
         localStorage.setItem('token', token);
-        this.router.navigate(['/']);
+        this.router.navigate(['/']).then(() => window.location.reload());
       },
       ({ error: { message } }) => this.snackBar.emit(message),
     );
