@@ -8,21 +8,25 @@
 
   .is-select-photos
     margin-top -1rem
-    @media (max-width 700px)
+    @media (max-width 562px)
       display $flex
       justify-content $center
       flex-wrap $wrap
     button
       margin 1rem 0.5rem 0 0
 
-  & > h1
-    @media (max-width 700px)
+  .date
+    margin-bottom -3rem
+    @media (max-width 562px)
       text-align $center
+
+  &__content
+    margin 0.5rem 0
 
   &__list
     display $flex
     flex-wrap $wrap
-    @media (max-width 700px)
+    @media (max-width 562px)
       display $flex
       justify-content $center
 
@@ -39,7 +43,7 @@
       border-radius 8px
       margin 0.5rem 1rem 0 0
       cursor $pointer
-      @media (max-width 700px)
+      @media (max-width 562px)
         margin 0.5rem
 
     .is-select

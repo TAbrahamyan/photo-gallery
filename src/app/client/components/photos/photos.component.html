@@ -14,11 +14,11 @@
   </div>
 
   <ng-container *ngIf="!isLoading; else spinner">
-    <div *ngFor="let date of photosDate">
-      <h1>{{ date | date: 'MMM dd, YYYY' }}</h1>
+    <div *ngFor="let date of photosDate" class="photos__content">
+      <h1 class="date">{{ formatUploadedDate(date) }}</h1>
 
       <div class="photos__list">
-        <div *ngFor="let photo of (photos | filter : date); let i = index">
+        <div *ngFor="let photo of (photos | filter : date)">
           <button mat-icon-button [matMenuTriggerFor]="dropMenu" *ngIf="!isSelect">
             <mat-icon>more_vert</mat-icon>
           </button>
@@ -42,7 +42,7 @@
             </div>
           </mat-menu>
 
-          <img [src]="photo.src" [ngClass]="{'is-select': isSelect}" (click)="isShowSliderHandler(i)" />
+          <img [src]="photo.src" [ngClass]="{'is-select': isSelect}" (click)="isShowSliderHandler(photo._id)" />
           <input type="checkbox" class="select-checkbox" (change)="selectPhoto(photo)" *ngIf="isSelect">
         </div>
       </div>

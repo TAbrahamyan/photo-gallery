@@ -13,7 +13,7 @@ export class PhotoController {
 
   static async photos(req, res): Promise<void> {
     try {
-      const photos = await Photo.find({ owner: req.userId });
+      const photos = await Photo.find({ owner: req.userId }).sort({ createdAt: 'desc' });
       res.status(200).json(photos);
     } catch {
       res.status(500).json({ message: 'Error on getting photos' });

@@ -44,9 +44,26 @@ export class PhotosComponent implements OnInit {
     this.photosService.getPhotos();
   }
 
-  isShowSliderHandler(index: number): void {
+  formatUploadedDate(date: string): string | Date {
+    const months: string[] = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const localeDate: Date = new Date();
+    const myDate: Date = new Date(date);
+    let result: string | Date = '';
+
+    if (localeDate.getDate() === myDate.getDate()) {
+      result = 'Today';
+    } else if (localeDate.getDate() - 1 === myDate.getDate()) {
+      result = 'Yesterday';
+    } else {
+      result = `${months[myDate.getMonth()]} ${myDate.getDate()}, ${myDate.getFullYear()}`;
+    }
+
+    return result;
+  }
+
+  isShowSliderHandler(id: string): void {
     if (!this.isSelect) {
-      this.photoIndex = index;
+      this.photoIndex = this.photos.findIndex((photo: IPhotos) => photo._id === id);
       this.isShowSlider = true;
     }
   }
