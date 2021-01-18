@@ -12,10 +12,10 @@ import { UserService } from '../../services/api/user.service';
 })
 export class SignupComponent {
   signupForm: FormGroup = new FormGroup({
-    username: new FormControl('', [ Validators.required, ({ value }) => value.replace(/[\w-]+/g, '') ]),
+    username: new FormControl('', [ Validators.required, Validators.minLength(3), Validators.maxLength(20), ({ value }) => value.replace(/[\w -]+/g, '') ]),
     email: new FormControl('', [ Validators.required, Validators.email, Validators.pattern('^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$') ]),
-    password: new FormControl('', [ Validators.required, Validators.minLength(4) ]),
-    confirmPassword: new FormControl('', [ Validators.required, Validators.minLength(4) ]),
+    password: new FormControl('', [ Validators.required, Validators.minLength(3) ]),
+    confirmPassword: new FormControl('', [ Validators.required, Validators.minLength(3) ]),
   });
 
   constructor(private title: Title, public userService: UserService) {

@@ -13,7 +13,7 @@ import { UserService } from '../../services/api/user.service';
 export class LoginComponent {
   loginForm: FormGroup = new FormGroup({
     email: new FormControl('', [ Validators.required, Validators.email, Validators.pattern('^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$') ]),
-    password: new FormControl('', [ Validators.required, Validators.minLength(4) ]),
+    password: new FormControl('', [ Validators.required, Validators.minLength(3) ]),
   });
 
   constructor(private title: Title, public userService: UserService) {

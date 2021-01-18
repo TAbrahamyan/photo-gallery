@@ -1,12 +1,12 @@
 import { check } from 'express-validator';
 
 export const signupValidation = [
-  check('username').notEmpty(),
+  check('username').notEmpty().isLength({ min: 3, max: 20 }),
   check('email', 'Invalid email').isEmail(),
-  check('password', 'Password minimum length is 4').isLength({ min: 4 }),
+  check('password', 'Minimum length is 3').isLength({ min: 3 }),
 ];
 
 export const loginValidation = [
   check('email', 'Invalid email').normalizeEmail().isEmail(),
-  check('password', 'Password minimum length is 4').exists().isLength({ min: 4 }),
+  check('password', 'Minimum length is 3').exists().isLength({ min: 3 }),
 ];

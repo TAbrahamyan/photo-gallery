@@ -19,7 +19,7 @@ export class UserService {
       type: 'text',
       label: 'Username',
       controlName: 'username',
-      validationText: 'Username must not contain special symbols',
+      validationText: 'Word range 3-20 and must not contain special symbols.',
     },
     {
       type: 'email',
@@ -31,13 +31,13 @@ export class UserService {
       type: 'password',
       label: 'Password',
       controlName: 'password',
-      validationText: 'Minimum length is 4',
+      validationText: 'Minimum length is 3',
     },
     {
       type: 'password',
       label: 'Confirm password',
       controlName: 'confirmPassword',
-      validationText: 'Minimum length is 4',
+      validationText: 'Minimum length is 3',
     },
   ];
 

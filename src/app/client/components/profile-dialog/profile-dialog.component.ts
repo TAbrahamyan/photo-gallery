@@ -8,7 +8,7 @@ import { UserService } from '../../services/api/user.service';
 })
 export class ProfileDialogComponent {
   isEdit: boolean = false;
-  inputVal: string = '';
+  newUsername: string = '';
 
   constructor(private userService: UserService) { }
 
@@ -21,16 +21,21 @@ export class ProfileDialogComponent {
   }
 
   editUsernameHandler(): void {
-    if (!this.inputVal) {
-      return this.userService.snackBar('Input can not be empty');
+    if (
+      !this.newUsername.trim()
+      || this.newUsername.length < 3
+      || this.newUsername.length > 20
+      || this.newUsername.match(/[^\w -]+/g)
+    ) {
+      return this.userService.snackBar('Word range 3-20 and must not contain special symbols.');
     }
 
-    this.userService.editUsername(this.inputVal);
+    this.userService.editUsername(this.newUsername);
     this.isEdit = false;
   }
 
   isEditHandler(): void {
-    this.inputVal = this.userData.username;
+    this.newUsername = this.userData.username;
     this.isEdit = true;
   }
 }
