@@ -1,49 +1,46 @@
 <section class="photos">
-  <div class="is-select-photos" *ngIf="isSelect">
-    <button mat-raised-button color="warn" (click)="isSelect = false">
+  <div class="is-select-photos" *ngIf="photosConfig.isSelect">
+    <button mat-raised-button color="warn" (click)="photosConfig.isSelect = false">
       CANCEL
     </button>
 
-    <button mat-raised-button color="primary" (click)="bulkDownload()" [disabled]="!selectedPhotos.length">
+    <button mat-raised-button color="primary" (click)="bulkDownload()" [disabled]="!photosConfig.selectedPhotos.length">
       DOWNLOAD
     </button>
 
-    <button mat-raised-button color="warn" (click)="bulkDelete()" [disabled]="!selectedPhotos.length">
+    <button mat-raised-button color="warn" (click)="bulkDelete()" [disabled]="!photosConfig.selectedPhotos.length">
       DELETE
     </button>
   </div>
 
-  <ng-container *ngIf="!isLoading; else spinner">
-    <div *ngFor="let date of photosDate" class="photos__content">
+  <ng-container *ngIf="!photosData.isLoading; else spinner">
+    <div *ngFor="let date of photosData.date" class="photos__content">
       <h1 class="date">{{ formatUploadedDate(date) }}</h1>
 
       <div class="photos__list">
-        <div *ngFor="let photo of (photos | filter : date)">
-          <button mat-icon-button [matMenuTriggerFor]="dropMenu" *ngIf="!isSelect">
+        <div *ngFor="let photo of (photosData.photos | filter : date)">
+          <button mat-icon-button [matMenuTriggerFor]="dropMenu" *ngIf="!photosConfig.isSelect">
             <mat-icon>more_vert</mat-icon>
           </button>
 
           <mat-menu #dropMenu="matMenu">
             <div class="photos-menu">
-              <div (click)="isSelect = true">
-                <mat-icon>select_all</mat-icon>
-                Select
+              <div (click)="photosConfig.isSelect = true">
+                <mat-icon>select_all</mat-icon> Select
               </div>
 
               <div (click)="download(photo)">
-                <mat-icon>download</mat-icon>
-                Download
+                <mat-icon>download</mat-icon> Download
               </div>
 
               <div (click)="deletePhoto(photo._id)">
-                <mat-icon>delete</mat-icon>
-                Delete
+                <mat-icon>delete</mat-icon> Delete
               </div>
             </div>
           </mat-menu>
 
-          <img [src]="photo.src" [ngClass]="{'is-select': isSelect}" (click)="isShowSliderHandler(photo._id)" />
-          <input type="checkbox" class="select-checkbox" (change)="selectPhoto(photo)" *ngIf="isSelect">
+          <img [src]="photo.src" [ngClass]="{'is-select': photosConfig.isSelect}" (click)="isShowSliderHandler(photo._id)" />
+          <input type="checkbox" class="select-checkbox" (change)="selectPhoto(photo)" *ngIf="photosConfig.isSelect">
         </div>
       </div>
     </div>
@@ -52,11 +49,11 @@
     <mat-spinner></mat-spinner>
   </ng-template>
 
-  <div class="backdrop" *ngIf="isShowSlider">
-    <mat-icon class="close" (click)="isShowSlider = false">close</mat-icon>
+  <div class="backdrop" *ngIf="photosConfig.isShowSlider">
+    <mat-icon class="close" (click)="photosConfig.isShowSlider = false">close</mat-icon>
 
-    <swiper [slidesPerView]="1" [navigation]="true" [simulateTouch]="false" [initialSlide]="photoIndex">
-      <ng-template *ngFor="let photo of photos" swiperSlide>
+    <swiper [slidesPerView]="1" [navigation]="true" [simulateTouch]="false" [initialSlide]="photosConfig.photoIndex">
+      <ng-template *ngFor="let photo of photosData.photos" swiperSlide>
         <img [src]="photo.src" />
       </ng-template>
     </swiper>

@@ -1,12 +1,9 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
 
 import { IInputsConfig } from 'src/app/interfaces';
-import { environment } from 'src/environments/environment';
-import { ApiPaths } from '../../enums/ApiPaths';
-import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/api/user.service';
 
 @Component({
   selector: 'app-signup',
@@ -14,7 +11,6 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['../../../app.component.styl'],
 })
 export class SignupComponent {
-  @Output() snackBar = new EventEmitter();
   signupForm: FormGroup = new FormGroup({
     username: new FormControl('', [ Validators.required, ({ value }) => value.replace(/[\w-]+/g, '') ]),
     email: new FormControl('', [ Validators.required, Validators.email, Validators.pattern('^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$') ]),
@@ -22,29 +18,21 @@ export class SignupComponent {
     confirmPassword: new FormControl('', [ Validators.required, Validators.minLength(4) ]),
   });
 
-  get inputsConfig(): IInputsConfig[] {
-    return this.authService.inputsConfig;
+  constructor(private title: Title, public userService: UserService) {
+    this.title.setTitle('Signup');
   }
 
-  constructor(
-    private http: HttpClient,
-    private router: Router,
-    public authService: AuthService,
-  ) { }
+  get inputsConfig(): IInputsConfig[] {
+    return this.userService.inputsConfig;
+  }
 
   signup() {
     const { password, confirmPassword } = this.signupForm.value;
 
     if (password !== confirmPassword) {
-      return this.snackBar.emit('Password confirmation is incorrect');
+      return this.userService.snackBar('Password confirmation is incorrect');
     }
 
-    this.http.post<string>(`${environment.baseUrl}/${ApiPaths.Signup}`, this.signupForm.value).subscribe(
-      (message: string): void => {
-        this.snackBar.emit(message);
-        this.router.navigate(['/login']);
-      },
-      ({ error: { message } }) => message && this.snackBar.emit(message),
-    );
+    this.userService.signup(this.signupForm.value);
   }
 }

@@ -18,6 +18,6 @@ export default (req, res, next) => {
 
     next();
   } catch {
-    res.status(500).send({ message: 'Invalid token' });
+    res.status(500).json({ message: 'Invalid token' });
   }
 }

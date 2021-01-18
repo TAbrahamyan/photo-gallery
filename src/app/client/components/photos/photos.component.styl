@@ -7,7 +7,7 @@
   padding 2rem
 
   .is-select-photos
-    margin-top -1rem
+    margin -2rem 0 2rem 0
     @media (max-width 562px)
       display $flex
       justify-content $center
@@ -48,6 +48,7 @@
 
     .is-select
       border 10px solid gray
+      margin-top 3rem
       &:hover + .select-checkbox
         opacity 1
 
@@ -57,12 +58,15 @@
       transform scale(5)
       box-shadow: 0px 0px 20px 13px gray
       position relative
-      top -45%
+      top -37%
       left 43%
       &:hover,
       &:checked
         opacity 1
         cursor pointer
+      @media (max-width 561px)
+        top -39%
+        left 47%
 
 .backdrop
   position fixed

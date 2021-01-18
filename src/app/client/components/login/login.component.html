@@ -8,7 +8,7 @@
         <input matInput [type]="input.type" [formControlName]="input.controlName" required />
       </mat-form-field>
 
-      <p *ngIf="authService.validation(input.controlName, loginForm)">{{ input.validationText }}</p>
+      <p *ngIf="userService.validation(input.controlName, loginForm)">{{ input.validationText }}</p>
     </div>
 
     <button mat-raised-button color="primary" [disabled]="loginForm.invalid">Login</button>

@@ -19,7 +19,6 @@ export interface IConfig {
   db: string;
   secretJWT: string;
 }
-// Server interfaces
 
 // Client interfaces
 export interface IInputsConfig {
@@ -50,9 +49,21 @@ export interface IPhotos {
   updatedAt: string;
 }
 
+export interface IPhotosData {
+  photos: IPhotos[];
+  date: string[];
+  isLoading: boolean;
+}
+
+export interface IPhotosConfig {
+  photoIndex: number;
+  isShowSlider: boolean;
+  isSelect: boolean;
+  selectedPhotos: ISelectedPhotos[];
+}
+
 export interface ISelectedPhotos {
   photoId: string;
   photoLink: string;
   photoName: string;
 }
-// Client interfaces

@@ -4,8 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import './server/config/db';
-import config from './server/config/config';
-import { createRoutes } from './server/config/routes';
+import { config, createRoutes } from './server/config';
 
 const app = express();
 createRoutes(app);
