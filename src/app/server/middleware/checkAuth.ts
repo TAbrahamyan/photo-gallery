@@ -1,7 +1,8 @@
+import { Response } from 'express';
 import jwt from 'jsonwebtoken';
 import config from '../config/config';
 
-export default (req, res, next) => {
+export default (req: any, res: Response, next: () => void) => {
   if (req.method === 'OPTIONS') {
     return next();
   }

@@ -1,9 +1,12 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
+import path from 'path';
 import cors from 'cors';
+import config from './config';
 import { UserController, PhotoController } from '../controllers';
 import { checkAuth, signupValidation, loginValidation } from '../middleware';
+import { Express } from 'express-serve-static-core';
 
-export const createRoutes = app => {
+export const createRoutes = (app: Express) => {
   app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
@@ -20,4 +23,12 @@ export const createRoutes = app => {
   app.get('/api/photo/photos', checkAuth, PhotoController.photos);
   app.delete('/api/photo/:id', PhotoController.delete);
   app.patch('/api/photo/bulk-delete', PhotoController.bulkDelete);
+
+  if (config.isProduction) {
+    app.use(express.static(path.join(__dirname, '../../../../dist/photo-gallery')));
+
+    app.get('*', (req: Request, res: Response) => {
+      res.sendFile(path.join(__dirname, '../../../../dist/photo-gallery/index.html'))
+    });
+  }
 };

@@ -1,3 +1,4 @@
+import { Request, Response } from 'express';
 import User from '../models/User';
 import Photo from '../models/Photo';
 import bcrypt from 'bcryptjs';
@@ -6,7 +7,7 @@ import config from '../config/config';
 import { validationResult } from 'express-validator';
 
 export class UserController {
-  static async signup(req, res): Promise<void> {
+  static async signup(req: Request, res: Response): Promise<any> {
     const { username, email, password } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -26,12 +27,13 @@ export class UserController {
       const newUser = new User({ username, email, password: hashedPassword });
       await newUser.save();
       res.status(200).json('Successful registration');
-    } catch {
+    } catch (e) {
+      console.log(e);
       res.status(500).send('Error in saving');
     }
   }
 
-  static async login(req, res): Promise<void> {
+  static async login(req: Request, res: Response): Promise<any> {
     const { email, password } = req.body;
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -61,7 +63,7 @@ export class UserController {
     }
   }
 
-  static async me(req, res): Promise<void> {
+  static async me(req: any, res: Response): Promise<void> {
     try {
       const user = await User.findById(req.userId);
       res.status(200).json(user);
@@ -70,7 +72,7 @@ export class UserController {
     }
   }
 
-  static async editUsername(req, res): Promise<void> {
+  static async editUsername(req: Request, res: Response): Promise<void> {
     try {
       await User.findByIdAndUpdate(
         { _id: req.body.id },
@@ -83,7 +85,7 @@ export class UserController {
     }
   }
 
-  static async delete(req, res): Promise<void> {
+  static async delete(req: Request, res: Response): Promise<void> {
     try {
       await User.findByIdAndRemove(req.params.id);
       await Photo.deleteMany({ owner: req.params.id });

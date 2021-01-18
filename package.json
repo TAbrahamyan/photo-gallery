@@ -3,15 +3,14 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "node src/app/server.ts",
-    "server": "nodemon src/app/server.ts",
+    "start": "node --require ./ts-hook.ts ./src/app/server.ts",
+    "server": "nodemon ./src/app/server.ts",
     "dev": "concurrently \"ng serve -o\" \"npm run server\"",
-    "build": "ng build",
+    "build": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
   },
-  "type": "module",
   "private": true,
   "dependencies": {
     "@angular/animations": "~11.0.5",

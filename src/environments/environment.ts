@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: window.location.origin.includes('localhost') ? 'http://localhost:8000/api' : window.location.origin,
+  baseUrl: 'http://localhost:8000/api',
 };
 
 /*

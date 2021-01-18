@@ -1,7 +1,8 @@
+import { Request, Response } from 'express';
 import Photo from '../models/Photo';
 
 export class PhotoController {
-  static async upload(req, res): Promise<void> {
+  static async upload(req: any, res: Response): Promise<void> {
     try {
       const newPhoto = new Photo({ owner: req.userId, src: req.body.photo, name: req.body.name });
       await newPhoto.save();
@@ -11,7 +12,7 @@ export class PhotoController {
     }
   }
 
-  static async photos(req, res): Promise<void> {
+  static async photos(req: any, res: Response): Promise<void> {
     try {
       const photos = await Photo.find({ owner: req.userId }).sort({ createdAt: 'desc' });
       res.status(200).json(photos);
@@ -20,7 +21,7 @@ export class PhotoController {
     }
   }
 
-  static async delete(req, res): Promise<void> {
+  static async delete(req: Request, res: Response): Promise<void> {
     try {
       await Photo.findByIdAndDelete({ _id: req.params.id });
       res.status(200).json({ message: 'Photo delete' });
@@ -29,7 +30,7 @@ export class PhotoController {
     }
   }
 
-  static async bulkDelete(req, res): Promise<void> {
+  static async bulkDelete(req: Request, res: Response): Promise<void> {
     try {
       await Photo.deleteMany({ _id: req.body.photosId });
       res.status(200).json({ message: 'Bulk delete' });
