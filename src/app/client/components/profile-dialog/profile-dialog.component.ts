@@ -25,7 +25,7 @@ export class ProfileDialogComponent {
       !this.newUsername.trim()
       || this.newUsername.length < 3
       || this.newUsername.length > 20
-      || this.newUsername.match(/[^\w -]+/g)
+      || /[^\w -]+/g.test(this.newUsername)
     ) {
       return this.userService.snackBar('Word range 3-20 and must not contain special symbols.');
     }
