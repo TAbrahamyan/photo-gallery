@@ -2,7 +2,7 @@
   <span>Hello <strong (click)="openProfile()" class="open-profile">{{ userData?.username }}</strong></span>
   <span style="flex: 1 1 auto"></span>
 
-  <input type="file" (change)="uploadPhotoHandler($event)" (click)="clearFileInputValue($event)" #uploadPhoto hidden multiple />
+  <input type="file" (change)="uploadPhotoHandler($event)" (click)="clearFileInputValue($event)" #uploadPhoto hidden />
   <button mat-raised-button fxHide.xs (click)="chooseFile()">
     <mat-icon>add</mat-icon> Add photos
   </button>
@@ -17,7 +17,7 @@
 
   <mat-menu class="mat-menu-header" #dropMenu="matMenu">
     <div class="mobile-menu">
-      <input type="file" (change)="uploadPhotoHandler($event)" (click)="clearFileInputValue($event)" #uploadPhoto hidden multiple />
+      <input type="file" (change)="uploadPhotoHandler($event)" (click)="clearFileInputValue($event)" #uploadPhoto hidden />
       <button mat-raised-button color="primary" (click)="chooseFile()">
         <mat-icon>add</mat-icon> Add photos
       </button>

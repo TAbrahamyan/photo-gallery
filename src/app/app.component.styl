@@ -9,24 +9,29 @@
   padding 2rem
   box-shadow 3px 3px 10px 0 rgba(66, 82, 110, 0.75)
   border-radius 8px
-  width 20%
+  width 300px
+  @media (max-width 376px)
+    width 240px
 
 form
-  padding 2rem 0
+  padding 1rem 0
 
   mat-form-field
     width $size100percent
+    @media (max-width 426px)
+      font-size 0.8em
 
   p
     color red
     margin-top -1rem
-    font-size 0.8em
+    font-size 0.7em
     text-align left
     font-weight $bold
 
 .go
   outline $none
   font-weight $bold
+  margin-top 0.8rem
   &:hover
     text-decoration underline
     cursor $pointer

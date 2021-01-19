@@ -4,7 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "node --require ./ts-hook.ts ./src/app/server.ts",
-    "server": "nodemon ./src/app/server.ts",
+    "server": "nodemon --exec node --inspect -r ts-node/register ./src/app/server.ts",
     "dev": "concurrently \"ng serve -o\" \"npm run server\"",
     "build": "ng build --prod",
     "test": "ng test",

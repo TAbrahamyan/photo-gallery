@@ -7,5 +7,5 @@ mongoose.connect(config.db, {
   useCreateIndex: true,
   useFindAndModify: false,
 })
-  .then(_ => console.log('Database is connected'))
-  .catch(e => console.log('e:', e));
+  .then(() => console.log('Database is connected'))
+  .catch((e: any) => console.log('e:', e));

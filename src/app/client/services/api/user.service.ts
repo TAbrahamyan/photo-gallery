@@ -70,8 +70,8 @@ export class UserService {
   getUser(): void {
     this.http.get<IFrontUser>(`${environment.baseUrl}/${ApiPaths.GetUser}`, { headers: this.headers }).subscribe(
       (user: IFrontUser) => this.userData = user,
-      (error) => {
-        if (error.statusCode === 500) {
+      ({ status }) => {
+        if (status === 500) {
           this.logout();
         }
       },

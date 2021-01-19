@@ -1,15 +1,15 @@
 <section class="photos">
   <div class="is-select-photos" *ngIf="photosConfig.isSelect">
     <button mat-raised-button color="warn" (click)="photosConfig.isSelect = false">
-      CANCEL
+      <span>Cancel</span>
     </button>
 
     <button mat-raised-button color="primary" (click)="bulkDownload()" [disabled]="!photosConfig.selectedPhotos.length">
-      DOWNLOAD
+      <span>Download</span>
     </button>
 
     <button mat-raised-button color="warn" (click)="bulkDelete()" [disabled]="!photosConfig.selectedPhotos.length">
-      DELETE
+      <span>Delete</span>
     </button>
   </div>
 
